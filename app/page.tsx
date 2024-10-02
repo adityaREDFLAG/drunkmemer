@@ -1,9 +1,7 @@
 "use client";// app/page.tsx
 
 import { useEffect, useState } from "react";
-import { Metadata } from "next";
 import localFont from "next/font/local";
-import "./global.css";
 import { FaHeart, FaShareAlt, FaMoon, FaSun } from "react-icons/fa";
 
 const geistSans = localFont({
@@ -18,22 +16,13 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
-export const metadata: Metadata = {
-  title: "Meme Drunk",
-  description: "Your favorite meme sharing app",
-};
-
 interface Meme {
   id: string;
   url: string;
   title: string;
 }
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout() {
   const [memes, setMemes] = useState<Meme[]>([]);
   const [favorites, setFavorites] = useState<string[]>([]);
   const [darkMode, setDarkMode] = useState<boolean>(false);
@@ -88,9 +77,7 @@ export default function RootLayout({
               <img src={meme.url} alt={meme.title} className="rounded" />
               <div className="flex justify-between mt-2">
                 <button
-                  className={`button favorite ${
-                    favorites.includes(meme.id) ? "active" : ""
-                  }`}
+                  className={`button favorite ${favorites.includes(meme.id) ? "active" : ""}`}
                   onClick={() => toggleFavorite(meme.id)}
                 >
                   <FaHeart />
@@ -103,6 +90,49 @@ export default function RootLayout({
           ))}
         </div>
       </body>
+      <style jsx>{`
+        body {
+          background-color: ${darkMode ? "#1f1f1f" : "#ffffff"};
+          color: ${darkMode ? "#ffffff" : "#000000"};
+        }
+        .navbar {
+          display: flex;
+          justify-content: space-between;
+          padding: 16px;
+          background-color: ${darkMode ? "#333333" : "#f0f0f0"};
+        }
+        .logo {
+          font-size: 24px;
+          font-weight: bold;
+        }
+        .navbar-icons {
+          display: flex;
+          gap: 10px;
+        }
+        .button {
+          background: transparent;
+          border: none;
+          cursor: pointer;
+          transition: transform 0.2s;
+        }
+        .button:hover {
+          transform: scale(1.1);
+        }
+        .card {
+          width: 300px;
+          margin: 10px;
+          border-radius: 8px;
+          overflow: hidden;
+          box-shadow: ${darkMode ? "0 4px 10px rgba(0, 0, 0, 0.7)" : "0 2px 10px rgba(0, 0, 0, 0.1)"};
+        }
+        img {
+          width: 100%;
+          border-radius: 8px 8px 0 0;
+        }
+        .favorite.active {
+          color: red;
+        }
+      `}</style>
     </html>
   );
 }
