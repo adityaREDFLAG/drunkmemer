@@ -1,3 +1,4 @@
+"use client";
 import { useState, useEffect } from "react";
 import { FaHeart, FaStar, FaHome } from "react-icons/fa";
 import "./global.css";
@@ -18,10 +19,20 @@ export default function App() {
     setMemes(data.memes);
   };
 
+  const isFavorite = (meme) => {
+    return favorites.some((fav) => fav.url === meme.url);
+  };
+
   const handleLike = (meme) => {
-    const updatedFavorites = [...favorites, meme];
-    setFavorites(updatedFavorites);
-    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+    if (isFavorite(meme)) {
+      const updatedFavorites = favorites.filter((fav) => fav.url !== meme.url);
+      setFavorites(updatedFavorites);
+      localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+    } else {
+      const updatedFavorites = [...favorites, meme];
+      setFavorites(updatedFavorites);
+      localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+    }
   };
 
   return (
@@ -42,9 +53,14 @@ export default function App() {
               <div className="p-4">
                 <button
                   onClick={() => handleLike(meme)}
-                  className="flex items-center justify-center w-full py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors"
+                  className={`flex items-center justify-center w-full py-2 rounded-md transition-colors ${
+                    isFavorite(meme)
+                      ? "bg-red-500 text-white hover:bg-red-600"
+                      : "bg-gray-300 text-gray-700 hover:bg-gray-400"
+                  }`}
                 >
-                  <FaHeart className="mr-2" /> Like
+                  <FaHeart className="mr-2" />
+                  {isFavorite(meme) ? "Unlike" : "Like"}
                 </button>
               </div>
             </div>
