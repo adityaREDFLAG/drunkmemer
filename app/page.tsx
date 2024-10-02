@@ -1,74 +1,89 @@
-"use client";// app/page.tsx
+"use client";
 
-'use client';
-
-import { useEffect, useState } from 'react';
-import { FiHeart, FiShare2, FiSun, FiMoon } from 'react-icons/fi';
+import { useEffect, useState } from "react";
+import { Image } from "next/image";
+import { IconType } from "react-icons/lib";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 
 interface Meme {
   id: string;
-  url: string;
   title: string;
+  url: string;
 }
 
-export default function Page() {
+const Home = () => {
   const [memes, setMemes] = useState<Meme[]>([]);
-  const [favorites, setFavorites] = useState<string[]>([]);
-  const [darkMode, setDarkMode] = useState<boolean>(false);
-
-  const toggleFavorite = (id: string) => {
-    setFavorites((prev) =>
-      prev.includes(id) ? prev.filter((favoriteId) => favoriteId !== id) : [...prev, id]
-    );
-  };
-
-  const loadMoreMemes = async () => {
-    const response = await fetch('https://meme-api.com/gimme/10'); // Fetch 10 memes
-    const data = await response.json();
-    setMemes((prev) => [...prev, ...data.memes]);
-  };
-
-  const handleToggleDarkMode = () => {
-    setDarkMode((prev) => !prev);
+  const [favorites, setFavorites] = useState<Meme[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [darkMode, setDarkMode] = useState(false);
+  
+  const fetchMemes = async () => {
+    try {
+      const response = await fetch("https://meme-api.com/gimme/10");
+      const data = await response.json();
+      setMemes(data.memes);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching memes:", error);
+    }
   };
 
   useEffect(() => {
-    loadMoreMemes();
+    fetchMemes();
   }, []);
 
+  const toggleFavorite = (memeId: string) => {
+    const memeToToggle = memes.find(meme => meme.id === memeId);
+    if (memeToToggle) {
+      setFavorites(prevFavorites =>
+        prevFavorites.includes(memeToToggle)
+          ? prevFavorites.filter(meme => meme.id !== memeId)
+          : [...prevFavorites, memeToToggle]
+      );
+    }
+  };
+
+  const toggleDarkMode = () => {
+    setDarkMode(prev => !prev);
+  };
+
   return (
-    <div className={`min-h-screen ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}>
-      <header className="flex justify-between items-center p-4">
-        <h1 className="text-xl font-bold">Meme Drunk</h1>
-        <div className="flex items-center space-x-4">
-          <button className="p-2 rounded-full" onClick={handleToggleDarkMode}>
-            {darkMode ? <FiSun size={24} /> : <FiMoon size={24} />}
-          </button>
-          <button className="p-2 rounded-full" onClick={() => alert('Favorites feature coming soon!')}>
-            <FiHeart size={24} />
-          </button>
-        </div>
-      </header>
-      <div className="flex flex-wrap justify-center">
-        {memes.map((meme) => (
-          <div className="card" key={meme.id}>
-            <img src={meme.url} alt={meme.title} className="rounded" />
-            <div className="flex justify-between mt-2">
-              <button className="button" onClick={() => toggleFavorite(meme.id)}>
-                {favorites.includes(meme.id) ? <FiHeart color="red" /> : <FiHeart />}
-              </button>
-              <button className="button">
-                <FiShare2 />
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
-      <div className="flex justify-center mt-4">
-        <button className="button" onClick={loadMoreMemes}>
-          Load More Memes
+    <div className={darkMode ? "bg-gray-900 text-white" : "bg-white text-black"}>
+      <nav className="flex justify-between p-4">
+        <h1 className="text-2xl">Meme Drunk</h1>
+        <button onClick={toggleDarkMode}>
+          {darkMode ? "Light Mode" : "Dark Mode"}
         </button>
+        <button onClick={() => console.log(favorites)}>
+          Favorites ({favorites.length})
+        </button>
+      </nav>
+      <div className="flex flex-wrap justify-center">
+        {loading ? (
+          <p>Loading...</p>
+        ) : (
+          memes.map((meme) => (
+            <div className="card" key={meme.id}>
+              <Image src={meme.url} alt={meme.title} width={300} height={300} className="rounded" />
+              <div className="flex justify-between mt-2">
+                <button onClick={() => toggleFavorite(meme.id)}>
+                  {favorites.includes(meme) ? (
+                    <FaHeart className="text-red-500" />
+                  ) : (
+                    <FaRegHeart />
+                  )}
+                </button>
+                <p className="font-bold">{meme.title}</p>
+              </div>
+            </div>
+          ))
+        )}
       </div>
+      <button className="load-more" onClick={fetchMemes}>
+        Load More Memes
+      </button>
     </div>
   );
-}
+};
+
+export default Home;
