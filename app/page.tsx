@@ -27,31 +27,30 @@ export default function HomePage() {
     }
   }, []);
 
-  useEffect(() => {
-    // Sync favorites to local storage
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-  }, [favorites]);
-
-  const toggleFavorite = (memeUrl: string) => {
+  const handleLike = (memeUrl: string) => {
     if (favorites.includes(memeUrl)) {
-      setFavorites(favorites.filter((url) => url !== memeUrl)); // Unlike
+      const newFavorites = favorites.filter((url) => url !== memeUrl);
+      setFavorites(newFavorites);
+      localStorage.setItem("favorites", JSON.stringify(newFavorites));
     } else {
-      setFavorites([...favorites, memeUrl]); // Like
+      setFavorites((prev) => {
+        const newFavorites = [...prev, memeUrl];
+        localStorage.setItem("favorites", JSON.stringify(newFavorites));
+        return newFavorites;
+      });
     }
   };
-
-  const isFavorite = (memeUrl: string) => favorites.includes(memeUrl);
 
   return (
     <div className="container">
       <h1 className="title">Meme Drunk</h1>
       <div className="meme-grid">
         {memes.map((meme) => (
-          <div key={meme.url} className="meme-item">
+          <div key={meme.url} className="meme-card">
             <img src={meme.url} alt={meme.title} className="meme-image" />
             <button
-              className={`like-button ${isFavorite(meme.url) ? "liked" : ""}`}
-              onClick={() => toggleFavorite(meme.url)}
+              className={`like-button ${favorites.includes(meme.url) ? 'liked' : ''}`}
+              onClick={() => handleLike(meme.url)}
             >
               <FaHeart />
             </button>
@@ -60,13 +59,9 @@ export default function HomePage() {
       </div>
       <h2 className="favorites-title">Favorites</h2>
       <div className="favorites-grid">
-        {favorites.length > 0 ? (
-          favorites.map((fav) => (
-            <img key={fav} src={fav} alt="Favorite Meme" className="meme-image" />
-          ))
-        ) : (
-          <p>No favorites yet!</p>
-        )}
+        {favorites.map((url) => (
+          <img key={url} src={url} alt="Favorite meme" />
+        ))}
       </div>
     </div>
   );
