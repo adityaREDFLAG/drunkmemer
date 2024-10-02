@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Image } from "next/image";
-import { IconType } from "react-icons/lib";
+import Image from "next/image";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { MdOutlineDarkMode, MdOutlineWbSunny } from "react-icons/md"; // Importing icons for dark mode and light mode
 
 interface Meme {
   id: string;
@@ -16,7 +16,7 @@ const Home = () => {
   const [favorites, setFavorites] = useState<Meme[]>([]);
   const [loading, setLoading] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
-  
+
   const fetchMemes = async () => {
     try {
       const response = await fetch("https://meme-api.com/gimme/10");
@@ -51,12 +51,14 @@ const Home = () => {
     <div className={darkMode ? "bg-gray-900 text-white" : "bg-white text-black"}>
       <nav className="flex justify-between p-4">
         <h1 className="text-2xl">Meme Drunk</h1>
-        <button onClick={toggleDarkMode}>
-          {darkMode ? "Light Mode" : "Dark Mode"}
-        </button>
-        <button onClick={() => console.log(favorites)}>
-          Favorites ({favorites.length})
-        </button>
+        <div className="flex items-center">
+          <button onClick={toggleDarkMode} className="p-2">
+            {darkMode ? <MdOutlineWbSunny size={24} /> : <MdOutlineDarkMode size={24} />}
+          </button>
+          <button onClick={() => console.log(favorites)} className="p-2">
+            Favorites ({favorites.length})
+          </button>
+        </div>
       </nav>
       <div className="flex flex-wrap justify-center">
         {loading ? (
