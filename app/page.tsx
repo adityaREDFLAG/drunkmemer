@@ -31,16 +31,15 @@ export default function Home() {
     setLoading(false);
   };
 
-  const handleLike = (meme: Meme) => {
-    // Like functionality
+  const handleLike = () => {
+    // Like functionality (to be implemented)
   };
 
-  const handleComment = (meme: Meme) => {
-    // Comment functionality
+  const handleComment = () => {
+    // Comment functionality (to be implemented)
   };
 
   const handleShare = (meme: Meme) => {
-    // Share functionality
     navigator.clipboard.writeText(meme.postLink);
     alert("Link copied to clipboard!");
   };
@@ -52,8 +51,8 @@ export default function Home() {
           <Text p={2} fontWeight="bold">{meme.title}</Text>
           <Image src={meme.url} alt={meme.title} width="100%" />
           <Box p={4} display="flex" justifyContent="space-between">
-            <Button onClick={() => handleLike(meme)} leftIcon={<FaHeart />}>Like</Button>
-            <Button onClick={() => handleComment(meme)} leftIcon={<FaComment />}>Comment</Button>
+            <Button onClick={handleLike} leftIcon={<FaHeart />}>Like</Button>
+            <Button onClick={handleComment} leftIcon={<FaComment />}>Comment</Button>
             <Button onClick={() => handleShare(meme)} leftIcon={<FaShareAlt />}>Share</Button>
           </Box>
         </Box>
