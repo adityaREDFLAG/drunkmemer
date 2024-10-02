@@ -1,5 +1,3 @@
-/* global.css */
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -7,6 +5,9 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --primary-color: #0095f6; /* Instagram's blue */
+  --secondary-color: #efefef; /* Light gray for card backgrounds */
+  --border-radius: 8px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -19,22 +20,55 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: 'Arial', 'Helvetica', sans-serif;
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  margin: 0;
+.card {
+  background: var(--secondary-color);
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin: 16px;
+  padding: 16px;
+  transition: transform 0.2s;
 }
 
-button {
-  transition: background-color 0.2s, transform 0.2s;
+.card:hover {
+  transform: scale(1.02);
 }
 
-button:hover {
-  transform: scale(1.05);
+.button {
+  background: var(--primary-color);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: var(--border-radius);
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.button:hover {
+  background: #007bb5;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background: var(--secondary-color);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.nav-item {
+  margin: 0 10px;
+}
+
+.icon {
+  transition: transform 0.3s;
+}
+
+.icon:hover {
+  transform: scale(1.2);
 }
 
 @layer utilities {
