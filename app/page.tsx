@@ -10,15 +10,21 @@ interface Meme {
 
 export default function HomePage() {
   const [memes, setMemes] = useState<Meme[]>([]);
-  const [favorites, setFavorites] = useState<string[]>(
-    JSON.parse(localStorage.getItem("favorites") || "[]")
-  );
+  const [favorites, setFavorites] = useState<string[]>([]);
 
   useEffect(() => {
     // Fetch memes from API
     fetch("https://meme-api.com/gimme/10")
       .then((response) => response.json())
-      .then((data) => setMemes(data.memes));
+      .then((data) => {
+        setMemes(data.memes);
+      });
+
+    // Load favorites from localStorage
+    const storedFavorites = localStorage.getItem("favorites");
+    if (storedFavorites) {
+      setFavorites(JSON.parse(storedFavorites));
+    }
   }, []);
 
   useEffect(() => {
