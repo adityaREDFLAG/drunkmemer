@@ -1,19 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import {
-  Box,
-  Button,
-  VStack,
-  Text,
-  Image,
-  IconButton,
-  useToast,
-  SimpleGrid,
-  Heading,
-  Icon,
-} from "@chakra-ui/react";
-import { FaHeart, FaShareAlt, FaStar } from "react-icons/fa";
+import { Box, VStack, Text, Image, IconButton, useToast, SimpleGrid, Heading } from "@chakra-ui/react";
+import { FaHeart, FaShareAlt } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { css } from "@emotion/react";
 
@@ -26,7 +15,6 @@ interface Meme {
 export default function Home() {
   const [memes, setMemes] = useState<Meme[]>([]);
   const [favorites, setFavorites] = useState<Meme[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
   const toast = useToast();
 
   useEffect(() => {
@@ -38,7 +26,6 @@ export default function Home() {
   }, []);
 
   const loadMemes = async () => {
-    setLoading(true);
     try {
       const res = await fetch(`https://meme-api.com/gimme/20`);
       const data = await res.json();
@@ -46,7 +33,6 @@ export default function Home() {
     } catch (error) {
       console.error("Failed to fetch memes", error);
     }
-    setLoading(false);
   };
 
   const handleLike = (meme: Meme) => {
