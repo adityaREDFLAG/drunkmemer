@@ -1,99 +1,61 @@
 "use client";// app/page.tsx
 
-// app/page.tsx
-
 import { useEffect, useState } from "react";
-import { ChakraProvider, Box, Button, Flex, Image, Text, VStack, Heading, HStack } from "@chakra-ui/react";
-import { FaHeart, FaShareAlt, FaStar } from "react-icons/fa";
-import localFont from "next/font/local";
-import "./global.css";
+import { FaHeart, FaShare } from "react-icons/fa";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
-
-// Define the structure of a meme object
-interface Meme {
-  title: string;
-  url: string;
-}
-
-export default function Home() {
-  const [memes, setMemes] = useState<Meme[]>([]);
+export default function HomePage() {
+  const [memes, setMemes] = useState([]);
   const [favorites, setFavorites] = useState<string[]>([]);
 
   useEffect(() => {
-    const savedFavorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-    setFavorites(savedFavorites);
+    // Fetch memes from the API
+    const fetchMemes = async () => {
+      const response = await fetch("https://meme-api.com/gimme/10");
+      const data = await response.json();
+      setMemes(data.memes);
+    };
+
     fetchMemes();
+
+    const storedFavorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+    setFavorites(storedFavorites);
   }, []);
 
-  const fetchMemes = async () => {
-    const response = await fetch("https://meme-api.com/gimme/10");
-    const data = await response.json();
-    setMemes(data.memes);
-  };
+  const toggleFavorite = (id: string) => {
+    const updatedFavorites = favorites.includes(id)
+      ? favorites.filter(favId => favId !== id)
+      : [...favorites, id];
 
-  const toggleFavorite = (url: string) => {
-    if (favorites.includes(url)) {
-      const updatedFavorites = favorites.filter((fav) => fav !== url);
-      setFavorites(updatedFavorites);
-      localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
-    } else {
-      const updatedFavorites = [...favorites, url];
-      setFavorites(updatedFavorites);
-      localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
-    }
+    setFavorites(updatedFavorites);
+    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
   };
 
   const shareMeme = (url: string) => {
-    if (navigator.share) {
-      navigator.share({
-        title: 'Check out this meme!',
-        url,
-      });
-    } else {
-      alert('Sharing not supported on this browser.');
-    }
+    navigator.clipboard.writeText(url);
+    alert("Meme link copied to clipboard!");
   };
 
   return (
-    <ChakraProvider>
-      <Box className={`${geistSans.variable} ${geistMono.variable}`} p={5}>
-        <Flex justify="space-between" align="center" mb={5}>
-          <Heading size="lg">Meme Drunk</Heading>
-          <HStack spacing={4}>
-            <Button variant="outline" onClick={() => {/* Navigate to favorites */}}>
-              <FaStar /> Favorites
-            </Button>
-          </HStack>
-        </Flex>
-
-        <Flex wrap="wrap" justify="center">
-          {memes.map((meme) => (
-            <VStack key={meme.url} borderRadius="md" overflow="hidden" boxShadow="md" m={2}>
-              <Image src={meme.url} alt={meme.title} borderRadius="md" boxSize="300px" objectFit="cover" />
-              <Text>{meme.title}</Text>
-              <HStack spacing={4} p={2}>
-                <Button onClick={() => toggleFavorite(meme.url)} colorScheme="teal">
-                  <FaHeart /> {favorites.includes(meme.url) ? 'Unlike' : 'Like'}
-                </Button>
-                <Button onClick={() => shareMeme(meme.url)} colorScheme="blue">
-                  <FaShareAlt /> Share
-                </Button>
-              </HStack>
-            </VStack>
-          ))}
-        </Flex>
-      </Box>
-    </ChakraProvider>
+    <div>
+      <nav className="navbar">
+        <h1>Meme Drunk</h1>
+        <button className="button" onClick={() => { /* Logic to show favorites */ }}>Favorites</button>
+      </nav>
+      <div className="flex flex-wrap justify-center">
+        {memes.map((meme) => (
+          <div className="card" key={meme.id}>
+            <img src={meme.url} alt={meme.title} className="rounded" />
+            <div className="flex justify-between mt-2">
+              <button className="button" onClick={() => toggleFavorite(meme.id)}>
+                <FaHeart className={`icon ${favorites.includes(meme.id) ? "text-red-600" : ""}`} />
+              </button>
+              <button className="button" onClick={() => shareMeme(meme.url)}>
+                <FaShare className="icon" />
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
