@@ -2,89 +2,75 @@
 
 
 
-import { useEffect, useState } from "react";
-import Image from "next/image";
-import { FaHeart, FaRegHeart } from "react-icons/fa";
+'use client';
+
+import { useEffect, useState } from 'react';
+import { FiHeart, FiShare2, FiSun, FiMoon } from 'react-icons/fi';
 
 interface Meme {
   id: string;
-  title: string;
   url: string;
+  title: string;
 }
 
-const Home = () => {
+export default function Page() {
   const [memes, setMemes] = useState<Meme[]>([]);
-  const [favorites, setFavorites] = useState<Meme[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [darkMode, setDarkMode] = useState(false);
+  const [favorites, setFavorites] = useState<string[]>([]);
+  const [darkMode, setDarkMode] = useState<boolean>(false);
 
-  const fetchMemes = async () => {
-    try {
-      const response = await fetch("https://meme-api.com/gimme/10");
-      const data = await response.json();
-      setMemes(data.memes);
-      setLoading(false);
-    } catch (error) {
-      console.error("Error fetching memes:", error);
-    }
+  const toggleFavorite = (id: string) => {
+    setFavorites((prev) =>
+      prev.includes(id) ? prev.filter((favoriteId) => favoriteId !== id) : [...prev, id]
+    );
+  };
+
+  const loadMoreMemes = async () => {
+    const response = await fetch('https://meme-api.com/gimme/10'); // Fetch 10 memes
+    const data = await response.json();
+    setMemes((prev) => [...prev, ...data.memes]);
+  };
+
+  const handleToggleDarkMode = () => {
+    setDarkMode((prev) => !prev);
   };
 
   useEffect(() => {
-    fetchMemes();
+    loadMoreMemes();
   }, []);
 
-  const toggleFavorite = (memeId: string) => {
-    const memeToToggle = memes.find(meme => meme.id === memeId);
-    if (memeToToggle) {
-      setFavorites(prevFavorites =>
-        prevFavorites.includes(memeToToggle)
-          ? prevFavorites.filter(meme => meme.id !== memeId)
-          : [...prevFavorites, memeToToggle]
-      );
-    }
-  };
-
-  const toggleDarkMode = () => {
-    setDarkMode(prev => !prev);
-  };
-
   return (
-    <div className={darkMode ? "bg-gray-900 text-white" : "bg-white text-black"}>
-      <nav className="flex justify-between p-4">
-        <h1 className="text-2xl">Meme Drunk</h1>
-        <button onClick={toggleDarkMode}>
-          {darkMode ? "Light Mode" : "Dark Mode"}
-        </button>
-        <button onClick={() => console.log(favorites)}>
-          Favorites ({favorites.length})
-        </button>
-      </nav>
+    <div className={`min-h-screen ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}>
+      <header className="flex justify-between items-center p-4">
+        <h1 className="text-xl font-bold">Meme Drunk</h1>
+        <div className="flex items-center space-x-4">
+          <button className="p-2 rounded-full" onClick={handleToggleDarkMode}>
+            {darkMode ? <FiSun size={24} /> : <FiMoon size={24} />}
+          </button>
+          <button className="p-2 rounded-full" onClick={() => alert('Favorites feature coming soon!')}>
+            <FiHeart size={24} />
+          </button>
+        </div>
+      </header>
       <div className="flex flex-wrap justify-center">
-        {loading ? (
-          <p>Loading...</p>
-        ) : (
-          memes.map((meme) => (
-            <div className="card" key={meme.id}>
-              <Image src={meme.url} alt={meme.title} width={300} height={300} className="rounded" />
-              <div className="flex justify-between mt-2">
-                <button onClick={() => toggleFavorite(meme.id)}>
-                  {favorites.includes(meme) ? (
-                    <FaHeart className="text-red-500" />
-                  ) : (
-                    <FaRegHeart />
-                  )}
-                </button>
-                <p className="font-bold">{meme.title}</p>
-              </div>
+        {memes.map((meme) => (
+          <div className="card" key={meme.id}>
+            <img src={meme.url} alt={meme.title} className="rounded" />
+            <div className="flex justify-between mt-2">
+              <button className="button" onClick={() => toggleFavorite(meme.id)}>
+                {favorites.includes(meme.id) ? <FiHeart color="red" /> : <FiHeart />}
+              </button>
+              <button className="button">
+                <FiShare2 />
+              </button>
             </div>
-          ))
-        )}
+          </div>
+        ))}
       </div>
-      <button className="load-more" onClick={fetchMemes}>
-        Load More Memes
-      </button>
+      <div className="flex justify-center mt-4">
+        <button className="button" onClick={loadMoreMemes}>
+          Load More Memes
+        </button>
+      </div>
     </div>
   );
-};
-
-export default Home;
+}
