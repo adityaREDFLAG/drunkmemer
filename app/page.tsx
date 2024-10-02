@@ -3,12 +3,17 @@
 import { useEffect, useState } from "react";
 import { FaHeart, FaShare } from "react-icons/fa";
 
+interface Meme {
+  id: string;
+  title: string;
+  url: string;
+}
+
 export default function HomePage() {
-  const [memes, setMemes] = useState([]);
+  const [memes, setMemes] = useState<Meme[]>([]);
   const [favorites, setFavorites] = useState<string[]>([]);
 
   useEffect(() => {
-    // Fetch memes from the API
     const fetchMemes = async () => {
       const response = await fetch("https://meme-api.com/gimme/10");
       const data = await response.json();
@@ -38,13 +43,13 @@ export default function HomePage() {
   return (
     <div>
       <nav className="navbar">
-        <h1>Meme Drunk</h1>
+        <h1 className="text-lg font-bold">Meme Drunk</h1>
         <button className="button" onClick={() => { /* Logic to show favorites */ }}>Favorites</button>
       </nav>
       <div className="flex flex-wrap justify-center">
         {memes.map((meme) => (
           <div className="card" key={meme.id}>
-            <img src={meme.url} alt={meme.title} className="rounded" />
+            <img src={meme.url} alt={meme.title} className="rounded-md shadow-md w-full h-auto" />
             <div className="flex justify-between mt-2">
               <button className="button" onClick={() => toggleFavorite(meme.id)}>
                 <FaHeart className={`icon ${favorites.includes(meme.id) ? "text-red-600" : ""}`} />
