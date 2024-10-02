@@ -1,100 +1,57 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  transition: background 0.3s ease, color 0.3s ease;
-}
-
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-  background: #f7f7f7;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  transition: background 0.3s ease;
-}
-
-.navbar.dark {
-  background: #171717;
-}
-
-.logo {
-  font-size: 1.5rem;
-  font-weight: bold;
+  margin: 0;
+  font-family: Arial, sans-serif;
 }
 
 .card {
-  background: #ffffff;
+  width: 300px;
+  margin: 16px;
   border-radius: 8px;
   overflow: hidden;
-  margin: 1rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background: white;
+  transition: transform 0.2s;
 }
 
 .card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-img {
-  width: 100%;
-  height: auto;
-}
-
-.button {
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background 0.2s, transform 0.2s;
-}
-
-.button:hover {
-  background: #e0e0e0;
   transform: scale(1.05);
 }
 
-.toggle-theme {
-  background: transparent;
-  color: inherit;
-  font-size: 1.2rem;
+.button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  padding: 8px;
+  transition: color 0.2s;
 }
 
-.load-more {
-  background: #007bff;
+.load-more-btn {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  background-color: #0070f3;
   color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
 }
 
-.load-more:hover {
-  background: #0056b3;
+.load-more-btn:hover {
+  background-color: #005bb5;
 }
 
-.favorite {
-  color: #ff4081;
+/* Dark mode styles */
+.bg-gray-800 {
+  background-color: #2d3748; /* Dark background */
 }
 
-.favorite.active {
-  color: red;
+.text-white {
+  color: #fff; /* White text */
 }
 
-.share {
-  color: #007bff;
+/* Additional styles for the transition effect */
+.rounded {
+  border-radius: 8px;
 }
