@@ -1,4 +1,4 @@
-"use client"; // Add this line at the top to mark the file as a Client Component
+"use client";
 
 import { useState, useEffect } from "react";
 import {
@@ -7,17 +7,15 @@ import {
   VStack,
   Text,
   Image,
-  Spinner,
-  Grid,
-  GridItem,
+  IconButton,
   useToast,
-  Tabs,
-  TabList,
-  Tab,
-  TabPanels,
-  TabPanel,
+  SimpleGrid,
+  Heading,
+  Icon,
 } from "@chakra-ui/react";
 import { FaHeart, FaShareAlt, FaStar } from "react-icons/fa";
+import { motion } from "framer-motion";
+import { css } from "@emotion/react";
 
 interface Meme {
   title: string;
@@ -27,15 +25,15 @@ interface Meme {
 
 export default function Home() {
   const [memes, setMemes] = useState<Meme[]>([]);
+  const [favorites, setFavorites] = useState<Meme[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const [likedMemes, setLikedMemes] = useState<Meme[]>([]);
   const toast = useToast();
 
   useEffect(() => {
     loadMemes();
-    const storedLikes = localStorage.getItem("likedMemes");
-    if (storedLikes) {
-      setLikedMemes(JSON.parse(storedLikes));
+    const savedFavorites = localStorage.getItem("favorites");
+    if (savedFavorites) {
+      setFavorites(JSON.parse(savedFavorites));
     }
   }, []);
 
@@ -52,14 +50,13 @@ export default function Home() {
   };
 
   const handleLike = (meme: Meme) => {
-    const newLikedMemes = [...likedMemes, meme];
-    setLikedMemes(newLikedMemes);
-    localStorage.setItem("likedMemes", JSON.stringify(newLikedMemes));
+    const updatedFavorites = [...favorites, meme];
+    setFavorites(updatedFavorites);
+    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
     toast({
-      title: "Meme Liked!",
-      description: "This meme has been added to your favorites.",
+      title: "Meme added to favorites.",
       status: "success",
-      duration: 3000,
+      duration: 2000,
       isClosable: true,
     });
   };
@@ -67,89 +64,103 @@ export default function Home() {
   const handleShare = (meme: Meme) => {
     navigator.clipboard.writeText(meme.postLink);
     toast({
-      title: "Link Copied!",
-      description: "Meme link copied to clipboard.",
+      title: "Link copied to clipboard!",
       status: "info",
-      duration: 3000,
+      duration: 2000,
       isClosable: true,
     });
   };
 
   return (
-    <VStack spacing={6} p={4}>
-      <Text fontSize="3xl" fontWeight="bold" textAlign="center">Meme Drunk</Text>
-      <Tabs variant="enclosed">
-        <TabList>
-          <Tab>Memes</Tab>
-          <Tab>Favorites</Tab>
-        </TabList>
+    <VStack spacing={6} p={4} align="center">
+      <Heading mb={6} color="purple.500" fontSize="2xl">
+        Meme Drunk
+      </Heading>
 
-        <TabPanels>
-          <TabPanel>
-            <Grid templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }} gap={6}>
-              {loading ? (
-                <Spinner />
-              ) : (
-                memes.map((meme, index) => (
-                  <GridItem
-                    key={index}
-                    borderWidth="1px"
-                    borderRadius="lg"
-                    overflow="hidden"
-                    w="100%"
-                    transition="transform 0.2s"
-                    _hover={{ transform: "scale(1.05)" }}
-                    boxShadow="lg"
-                  >
-                    <Text p={2} fontWeight="bold">{meme.title}</Text>
-                    <Image src={meme.url} alt={meme.title} width="100%" />
-                    <Box p={4} display="flex" justifyContent="space-between" alignItems="center">
-                      <Button
-                        onClick={() => handleLike(meme)}
-                        leftIcon={<FaHeart />}
-                        colorScheme={likedMemes.some((likedMeme) => likedMeme.postLink === meme.postLink) ? "red" : "blue"}
-                      >
-                        {likedMemes.some((likedMeme) => likedMeme.postLink === meme.postLink) ? "Liked" : "Like"}
-                      </Button>
-                      <Button onClick={() => handleShare(meme)} leftIcon={<FaShareAlt />}>Share</Button>
-                    </Box>
-                  </GridItem>
-                ))
-              )}
-            </Grid>
-          </TabPanel>
-          <TabPanel>
-            <Grid templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }} gap={6}>
-              {likedMemes.length > 0 ? (
-                likedMemes.map((meme, index) => (
-                  <GridItem
-                    key={index}
-                    borderWidth="1px"
-                    borderRadius="lg"
-                    overflow="hidden"
-                    w="100%"
-                    boxShadow="lg"
-                  >
-                    <Text p={2} fontWeight="bold">{meme.title}</Text>
-                    <Image src={meme.url} alt={meme.title} width="100%" />
-                    <Box p={4} display="flex" justifyContent="space-between" alignItems="center">
-                      <Button
-                        leftIcon={<FaStar />}
-                        colorScheme="yellow"
-                      >
-                        Liked
-                      </Button>
-                      <Button onClick={() => handleShare(meme)} leftIcon={<FaShareAlt />}>Share</Button>
-                    </Box>
-                  </GridItem>
-                ))
-              ) : (
-                <Text>No favorite memes yet!</Text>
-              )}
-            </Grid>
-          </TabPanel>
-        </TabPanels>
-      </Tabs>
+      {/* Meme Grid */}
+      <SimpleGrid columns={[1, 2, 3]} spacing={6} w="full" maxW="1200px">
+        {memes.map((meme, index) => (
+          <motion.div
+            key={index}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Box
+              borderWidth="1px"
+              borderRadius="lg"
+              overflow="hidden"
+              bg="gray.100"
+              p={4}
+              css={css`
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                transition: transform 0.3s ease;
+                &:hover {
+                  transform: translateY(-5px);
+                }
+              `}
+            >
+              <Image
+                src={meme.url}
+                alt={meme.title}
+                width="100%"
+                borderRadius="md"
+                mb={4}
+              />
+              <Text fontWeight="bold" mb={2}>
+                {meme.title}
+              </Text>
+              <Box display="flex" justifyContent="space-between">
+                <IconButton
+                  aria-label="Like"
+                  icon={<FaHeart />}
+                  onClick={() => handleLike(meme)}
+                  colorScheme="red"
+                  variant="ghost"
+                />
+                <IconButton
+                  aria-label="Share"
+                  icon={<FaShareAlt />}
+                  onClick={() => handleShare(meme)}
+                  colorScheme="blue"
+                  variant="ghost"
+                />
+              </Box>
+            </Box>
+          </motion.div>
+        ))}
+      </SimpleGrid>
+
+      {/* Favorites Tab */}
+      <Heading mt={12} mb={6} color="teal.400" fontSize="xl">
+        Favorites
+      </Heading>
+      {favorites.length > 0 ? (
+        <SimpleGrid columns={[1, 2, 3]} spacing={6} w="full" maxW="1200px">
+          {favorites.map((meme, index) => (
+            <Box
+              key={index}
+              borderWidth="1px"
+              borderRadius="lg"
+              overflow="hidden"
+              bg="yellow.100"
+              p={4}
+            >
+              <Image
+                src={meme.url}
+                alt={meme.title}
+                width="100%"
+                borderRadius="md"
+                mb={4}
+              />
+              <Text fontWeight="bold" mb={2}>
+                {meme.title}
+              </Text>
+            </Box>
+          ))}
+        </SimpleGrid>
+      ) : (
+        <Text>No favorites yet. Like some memes to add them!</Text>
+      )}
     </VStack>
   );
 }
