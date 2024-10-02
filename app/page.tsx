@@ -1,3 +1,5 @@
+"use client"; // Add this line at the top to mark the file as a Client Component
+
 import { useState, useEffect } from "react";
 import { Box, Button, VStack, Text, Image, Spinner } from "@chakra-ui/react";
 import { FaHeart, FaComment, FaShareAlt } from "react-icons/fa";
@@ -30,15 +32,15 @@ export default function Home() {
   };
 
   const handleLike = (meme: Meme) => {
-    // Add like functionality (e.g., store in local state or backend)
+    // Like functionality
   };
 
   const handleComment = (meme: Meme) => {
-    // Add comment functionality
+    // Comment functionality
   };
 
   const handleShare = (meme: Meme) => {
-    // Add share functionality (e.g., copying link)
+    // Share functionality
     navigator.clipboard.writeText(meme.postLink);
     alert("Link copied to clipboard!");
   };
