@@ -1,5 +1,7 @@
 "use client";// app/page.tsx
 
+// app/page.tsx
+
 import { useEffect, useState } from "react";
 import { ChakraProvider, Box, Button, Flex, Image, Text, VStack, Heading, HStack } from "@chakra-ui/react";
 import { FaHeart, FaShareAlt, FaStar } from "react-icons/fa";
@@ -18,8 +20,14 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
+// Define the structure of a meme object
+interface Meme {
+  title: string;
+  url: string;
+}
+
 export default function Home() {
-  const [memes, setMemes] = useState<any[]>([]);
+  const [memes, setMemes] = useState<Meme[]>([]);
   const [favorites, setFavorites] = useState<string[]>([]);
 
   useEffect(() => {
