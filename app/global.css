@@ -5,10 +5,10 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --primary: #ff4757;
-  --secondary: #1e90ff;
-  --card-bg: #f8f9fa;
+  --primary: #ff4757; /* Instagram-like pink */
+  --card-bg: #ffffff; /* White card background */
   --hover-bg: rgba(255, 71, 87, 0.1);
+  --shadow: rgba(0, 0, 0, 0.1);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -29,7 +29,7 @@ body {
 }
 
 .container {
-  max-width: 1200px;
+  max-width: 1000px;
   margin: 0 auto;
   padding: 20px;
 }
@@ -40,6 +40,18 @@ body {
   font-weight: bold;
   margin-bottom: 20px;
   color: var(--primary);
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .meme-grid {
@@ -48,44 +60,56 @@ body {
   gap: 20px;
 }
 
-.meme-item {
+.meme-card {
   position: relative;
   background: var(--card-bg);
-  border-radius: 10px;
+  border-radius: 15px;
   overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
+  box-shadow: 0 4px 10px var(--shadow);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.meme-item:hover {
-  transform: scale(1.05);
+.meme-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px var(--shadow);
 }
 
 .meme-image {
   width: 100%;
-  border-radius: 10px 10px 0 0;
+  border-radius: 15px 15px 0 0;
+  transition: transform 0.3s ease;
+}
+
+.meme-card:hover .meme-image {
+  transform: scale(1.05);
 }
 
 .like-button {
   position: absolute;
-  top: 10px;
+  bottom: 10px;
   right: 10px;
   background: transparent;
   border: none;
   color: var(--foreground);
-  font-size: 24px;
+  font-size: 28px;
   cursor: pointer;
-  transition: color 0.3s ease;
+  transition: color 0.3s ease, transform 0.2s ease;
 }
 
 .like-button.liked {
   color: var(--primary);
+  transform: scale(1.2); /* Slightly enlarge when liked */
+}
+
+.like-button:hover {
+  transform: scale(1.2); /* Enlarge on hover */
 }
 
 .favorites-title {
   text-align: center;
   font-size: 2rem;
   margin-top: 40px;
+  animation: fadeIn 0.5s ease-in-out;
 }
 
 .favorites-grid {
@@ -96,6 +120,11 @@ body {
 }
 
 .favorites-grid img {
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  box-shadow: 0 4px 10px var(--shadow);
+  transition: transform 0.3s ease;
+}
+
+.favorites-grid img:hover {
+  transform: scale(1.05); /* Enlarge on hover */
 }
