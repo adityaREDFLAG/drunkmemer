@@ -4,65 +4,97 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #14171a; /* Twitter's dark gray */
-  --primary-color: #1da1f2; /* Twitter's blue */
-  --secondary-color: #e1e8ed; /* Light gray for card backgrounds */
-  --border-radius: 8px;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
-  margin: 0;
-  padding: 0;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 20px;
-  background: var(--secondary-color);
+  padding: 1rem;
+  background: #f7f7f7;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: background 0.3s ease;
+}
+
+.navbar.dark {
+  background: #171717;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 
 .card {
-  background: white;
-  border-radius: var(--border-radius);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  margin: 16px;
-  padding: 16px;
-  width: 300px; /* Fixed width for card */
-  transition: transform 0.2s;
+  background: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .card:hover {
-  transform: translateY(-2px);
+  transform: translateY(-4px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+img {
+  width: 100%;
+  height: auto;
 }
 
 .button {
-  background: transparent;
+  padding: 0.5rem 1rem;
   border: none;
+  border-radius: 4px;
   cursor: pointer;
-  transition: color 0.3s;
+  transition: background 0.2s, transform 0.2s;
 }
 
 .button:hover {
-  color: var(--primary-color);
+  background: #e0e0e0;
+  transform: scale(1.05);
 }
 
-.icon {
-  font-size: 20px;
-  transition: transform 0.3s;
+.toggle-theme {
+  background: transparent;
+  color: inherit;
+  font-size: 1.2rem;
 }
 
-.icon:hover {
-  transform: scale(1.2);
+.load-more {
+  background: #007bff;
+  color: white;
 }
 
-@media (max-width: 768px) {
-  .card {
-    width: 90%; /* Responsive card width */
-  }
+.load-more:hover {
+  background: #0056b3;
+}
+
+.favorite {
+  color: #ff4081;
+}
+
+.favorite.active {
+  color: red;
+}
+
+.share {
+  color: #007bff;
 }
