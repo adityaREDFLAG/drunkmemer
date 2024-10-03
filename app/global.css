@@ -1,90 +1,60 @@
-/* General Styles */
-body {
-  font-family: 'Inter', sans-serif;
+/* global.css */
+html, body {
+  font-family: 'Arial', sans-serif;
   margin: 0;
   padding: 0;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  box-sizing: border-box;
 }
 
 button {
+  background: none;
   border: none;
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
-button:hover {
-  background-color: #f0f0f0;
-  transform: scale(1.05);
-}
-
-/* Header */
-header {
-  background-color: #1a1a1a;
-  color: #fff;
-  padding: 1rem 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-header h1 {
-  font-size: 2rem;
-  margin: 0;
-}
-
-/* Meme Card */
-.card {
-  max-width: 300px;
-  margin: 1rem;
-  background-color: #f9f9f9;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease;
-}
-
-.card:hover {
-  transform: translateY(-8px);
-}
-
-.card img {
-  width: 100%;
+img {
+  display: block;
+  max-width: 100%;
   height: auto;
-  border-top-left-radius: 12px;
-  border-top-right-radius: 12px;
 }
 
-/* Dark Mode */
-body.dark {
-  background-color: #1c1c1c;
-  color: #e5e5e5;
+.bg-gray-900 {
+  background-color: #1a202c;
 }
 
-body.dark header {
-  background-color: #333;
+.bg-gray-800 {
+  background-color: #2d3748;
 }
 
-body.dark .card {
-  background-color: #333;
+.bg-gray-100 {
+  background-color: #f7fafc;
 }
 
-body.dark button:hover {
-  background-color: #444;
+.text-white {
+  color: #fff;
 }
 
-/* Footer */
-footer {
-  padding: 1rem;
-  text-align: center;
-  background-color: #f5f5f5;
-  margin-top: 1.5rem;
-  color: #666;
+.text-black {
+  color: #000;
 }
 
-body.dark footer {
-  background-color: #333;
-  color: #999;
+.shadow-md {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.rounded-lg {
+  border-radius: 0.5rem;
+}
+
+.rounded-t-lg {
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+}
+
+.flex {
+  display: flex;
+}
+
+.grid {
+  display: grid;
 }
