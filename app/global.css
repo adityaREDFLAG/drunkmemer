@@ -1,85 +1,79 @@
-/* Updated global.css for better styling */
-body {
-  font-family: 'Arial', sans-serif;
-  background-color: var(--bg-color);
-  color: var(--text-color);
+.meme-drunk {
+  padding: 20px;
+  text-align: center;
 }
 
-.meme-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 0 auto;
-  max-width: 600px; /* For better alignment and centering */
-  padding: 10px;
+.meme-drunk__container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
 }
 
-.meme-card {
-  background-color: var(--card-bg-color);
+.meme-drunk__card {
+  background-color: var(--bg-card);
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin: 20px 0;
-  padding: 15px;
-  width: 100%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: left;
 }
 
-.meme-card img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 10px;
+.meme-drunk__title {
+  font-size: 1.2rem;
   margin-bottom: 10px;
 }
 
-.buttons {
+.meme-drunk__image {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.meme-drunk__actions {
   display: flex;
   justify-content: space-between;
-  align-items: center;
 }
 
-.like-btn,
-.share-btn {
-  background-color: var(--btn-bg-color);
-  color: var(--btn-text-color);
+.meme-drunk__like-btn,
+.meme-drunk__share-btn {
+  background-color: var(--btn-bg);
+  border: none;
+  color: var(--btn-text);
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.meme-drunk__like-btn:hover,
+.meme-drunk__share-btn:hover {
+  background-color: var(--btn-bg-hover);
+}
+
+.meme-drunk__load-more {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: var(--btn-bg);
+  color: var(--btn-text);
   border: none;
   border-radius: 5px;
-  padding: 10px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.2s;
 }
 
-.like-btn:hover,
-.share-btn:hover {
-  background-color: var(--btn-hover-color);
+.meme-drunk__load-more:hover {
+  background-color: var(--btn-bg-hover);
 }
 
-.load-more {
-  background-color: var(--btn-bg-color);
-  color: var(--btn-text-color);
-  border: none;
-  border-radius: 5px;
-  padding: 10px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+.meme-drunk__load-more:disabled {
+  background-color: var(--btn-bg-disabled);
+  cursor: not-allowed;
+}
+
+.meme-drunk__error {
+  color: red;
+  font-size: 1rem;
   margin-top: 20px;
 }
 
-.load-more:hover {
-  background-color: var(--btn-hover-color);
-}
 
-:root {
-  --bg-color: #f0f0f0;
-  --text-color: #333;
-  --card-bg-color: #fff;
-  --btn-bg-color: #007bff;
-  --btn-text-color: #fff;
-  --btn-hover-color: #0056b3;
-}
-
-[data-theme="dark"] {
-  --bg-color: #121212;
-  --text-color: #e0e0e0;
-  --card-bg-color: #1f1f1f;
-  --btn-bg-color: #1f78b4;
-  --btn-hover-color: #1565a7;
-}
