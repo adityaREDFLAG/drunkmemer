@@ -1,7 +1,3 @@
-"use client";
-
-
-
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -15,13 +11,12 @@ interface Meme {
 
 export default function Page() {
   const [memes, setMemes] = useState<Meme[]>([]);
-  const [favorites, setFavorites] = useState<string[]>([]);
+  const [likedMeme, setLikedMeme] = useState<string | null>(null); // To store the liked meme
   const [darkMode, setDarkMode] = useState<boolean>(false);
 
   const toggleFavorite = (id: string) => {
-    setFavorites((prev) =>
-      prev.includes(id) ? prev.filter((favoriteId) => favoriteId !== id) : [...prev, id]
-    );
+    // Only allow one liked meme at a time
+    setLikedMeme((prev) => (prev === id ? null : id));
   };
 
   const loadMoreMemes = async () => {
@@ -57,7 +52,7 @@ export default function Page() {
             <img src={meme.url} alt={meme.title} className="rounded" />
             <div className="flex justify-between mt-2">
               <button className="button" onClick={() => toggleFavorite(meme.id)}>
-                {favorites.includes(meme.id) ? <FiHeart color="red" /> : <FiHeart />}
+                {likedMeme === meme.id ? <FiHeart color="red" /> : <FiHeart />}
               </button>
               <button className="button">
                 <FiShare2 />
