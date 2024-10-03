@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { FiHeart, FiShare2, FiSun, FiMoon } from 'react-icons/fi';
+import { FiHeart, FiShare2 } from 'react-icons/fi';
+import { BsFillSunFill, BsFillMoonFill } from 'react-icons/bs'; // New Sun and Moon icons
 
 interface Meme {
   id: string;
@@ -11,12 +12,16 @@ interface Meme {
 
 export default function Page() {
   const [memes, setMemes] = useState<Meme[]>([]);
-  const [likedMeme, setLikedMeme] = useState<string | null>(null); // To store the liked meme
+  const [favorites, setFavorites] = useState<Meme[]>([]);
   const [darkMode, setDarkMode] = useState<boolean>(false);
+  const [viewFavorites, setViewFavorites] = useState<boolean>(false);
 
-  const toggleFavorite = (id: string) => {
-    // Only allow one liked meme at a time
-    setLikedMeme((prev) => (prev === id ? null : id));
+  const toggleFavorite = (meme: Meme) => {
+    setFavorites((prevFavorites) =>
+      prevFavorites.some((fav) => fav.id === meme.id)
+        ? prevFavorites.filter((fav) => fav.id !== meme.id)
+        : [...prevFavorites, meme]
+    );
   };
 
   const loadMoreMemes = async () => {
@@ -34,33 +39,53 @@ export default function Page() {
   }, []);
 
   return (
-    <div className={`min-h-screen ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}>
+    <div className={`min-h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-black'}`}>
       <header className="flex justify-between items-center p-4">
         <h1 className="text-xl font-bold">Meme Drunk</h1>
         <div className="flex items-center space-x-4">
           <button className="p-2 rounded-full" onClick={handleToggleDarkMode}>
-            {darkMode ? <FiSun size={24} /> : <FiMoon size={24} />}
+            {darkMode ? <BsFillSunFill size={24} /> : <BsFillMoonFill size={24} />}
           </button>
-          <button className="p-2 rounded-full" onClick={() => alert('Favorites feature coming soon!')}>
+          <button className="p-2 rounded-full" onClick={() => setViewFavorites(!viewFavorites)}>
             <FiHeart size={24} />
           </button>
         </div>
       </header>
-      <div className="flex flex-wrap justify-center">
-        {memes.map((meme) => (
-          <div className="card" key={meme.id}>
-            <img src={meme.url} alt={meme.title} className="rounded" />
-            <div className="flex justify-between mt-2">
-              <button className="button" onClick={() => toggleFavorite(meme.id)}>
-                {likedMeme === meme.id ? <FiHeart color="red" /> : <FiHeart />}
-              </button>
-              <button className="button">
-                <FiShare2 />
-              </button>
+
+      {viewFavorites ? (
+        <div className="flex flex-wrap justify-center">
+          {favorites.map((meme) => (
+            <div className="card" key={meme.id}>
+              <img src={meme.url} alt={meme.title} className="rounded" />
+              <div className="flex justify-between mt-2">
+                <button className="button" onClick={() => toggleFavorite(meme)}>
+                  {favorites.some((fav) => fav.id === meme.id) ? <FiHeart color="red" /> : <FiHeart />}
+                </button>
+                <button className="button">
+                  <FiShare2 />
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <div className="flex flex-wrap justify-center">
+          {memes.map((meme) => (
+            <div className="card" key={meme.id}>
+              <img src={meme.url} alt={meme.title} className="rounded" />
+              <div className="flex justify-between mt-2">
+                <button className="button" onClick={() => toggleFavorite(meme)}>
+                  {favorites.some((fav) => fav.id === meme.id) ? <FiHeart color="red" /> : <FiHeart />}
+                </button>
+                <button className="button">
+                  <FiShare2 />
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
       <div className="flex justify-center mt-4">
         <button className="button" onClick={loadMoreMemes}>
           Load More Memes
