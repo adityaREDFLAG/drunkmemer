@@ -14,23 +14,30 @@ button {
 }
 
 .meme-card {
-  margin: 16px auto;
+  margin: 20px auto;
   width: 100%;
-  max-width: 600px; /* Limit width for centering */
+  max-width: 600px;
   background-color: #fff;
-  border-radius: 12px;
+  border-radius: 15px;
   overflow: hidden;
-  transition: transform 0.2s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .meme-card:hover {
   transform: scale(1.05);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
 .meme-card img {
   width: 100%;
   height: auto;
   display: block;
+  transition: opacity 0.2s ease;
+}
+
+.meme-card img:hover {
+  opacity: 0.9;
 }
 
 .like-btn, .share-btn {
@@ -39,6 +46,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: #f1f1f1;
   transition: background-color 0.2s ease;
 }
 
@@ -59,19 +67,22 @@ button {
   background-color: #005bb5;
 }
 
-.dark-mode .meme-card {
-  background-color: #333;
-  color: white;
-}
-
-.dark-mode .load-more-btn {
-  background-color: #1a73e8;
-}
-
-/* Adjustments for light/dark mode */
+/* Dark Mode Styling */
 body.dark {
   background-color: #121212;
   color: white;
+}
+
+body.dark .meme-card {
+  background-color: #333;
+}
+
+body.dark .like-btn, body.dark .share-btn {
+  background-color: #444;
+}
+
+body.dark .load-more-btn {
+  background-color: #1a73e8;
 }
 
 body.light {
