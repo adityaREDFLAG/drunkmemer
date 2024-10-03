@@ -1,5 +1,4 @@
 'use client';
-
 import { useState, useEffect } from 'react';
 import { AiOutlineHeart, AiOutlineShareAlt } from 'react-icons/ai';
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
@@ -71,3 +70,5 @@ const MemeDrunk = () => {
 };
 
 export default MemeDrunk;
+
+
