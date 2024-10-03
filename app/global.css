@@ -1,91 +1,85 @@
-html, body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Roboto', sans-serif;
-  transition: background-color 0.3s ease;
-  text-align: center;
+/* Updated global.css for better styling */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
 }
 
-button {
-  outline: none;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.2s ease, color 0.2s ease;
+.meme-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  max-width: 600px; /* For better alignment and centering */
+  padding: 10px;
 }
 
 .meme-card {
-  margin: 20px auto;
+  background-color: var(--card-bg-color);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 20px 0;
+  padding: 15px;
   width: 100%;
-  max-width: 600px;
-  background-color: #fff;
-  border-radius: 15px;
-  overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.meme-card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
 .meme-card img {
-  width: 100%;
+  max-width: 100%;
   height: auto;
-  display: block;
-  transition: opacity 0.2s ease;
+  border-radius: 10px;
+  margin-bottom: 10px;
 }
 
-.meme-card img:hover {
-  opacity: 0.9;
-}
-
-.like-btn, .share-btn {
-  padding: 12px;
-  border-radius: 50%;
+.buttons {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  background-color: #f1f1f1;
-  transition: background-color 0.2s ease;
 }
 
-.like-btn:hover, .share-btn:hover {
-  background-color: #ddd;
-}
-
-.load-more-btn {
-  padding: 12px 24px;
-  background-color: #0070f3;
-  color: white;
-  border-radius: 8px;
-  font-weight: bold;
+.like-btn,
+.share-btn {
+  background-color: var(--btn-bg-color);
+  color: var(--btn-text-color);
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
-.load-more-btn:hover {
-  background-color: #005bb5;
+.like-btn:hover,
+.share-btn:hover {
+  background-color: var(--btn-hover-color);
 }
 
-/* Dark Mode Styling */
-body.dark {
-  background-color: #121212;
-  color: white;
+.load-more {
+  background-color: var(--btn-bg-color);
+  color: var(--btn-text-color);
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
 }
 
-body.dark .meme-card {
-  background-color: #333;
+.load-more:hover {
+  background-color: var(--btn-hover-color);
 }
 
-body.dark .like-btn, body.dark .share-btn {
-  background-color: #444;
+:root {
+  --bg-color: #f0f0f0;
+  --text-color: #333;
+  --card-bg-color: #fff;
+  --btn-bg-color: #007bff;
+  --btn-text-color: #fff;
+  --btn-hover-color: #0056b3;
 }
 
-body.dark .load-more-btn {
-  background-color: #1a73e8;
-}
-
-body.light {
-  background-color: white;
-  color: black;
+[data-theme="dark"] {
+  --bg-color: #121212;
+  --text-color: #e0e0e0;
+  --card-bg-color: #1f1f1f;
+  --btn-bg-color: #1f78b4;
+  --btn-hover-color: #1565a7;
 }
