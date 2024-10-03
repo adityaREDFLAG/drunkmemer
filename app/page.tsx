@@ -2,9 +2,15 @@
 
 import { useState, useEffect } from 'react';
 
+// Define the type of a meme (you may adjust based on the actual data structure)
+type Meme = {
+  title: string;
+  url: string;
+};
 
 const MemeDrunk = () => {
-  const [memes, setMemes] = useState([]);
+  // Correctly type the state to expect an array of Meme objects
+  const [memes, setMemes] = useState<Meme[]>([]);
   const [page, setPage] = useState(1);
 
   useEffect(() => {
@@ -15,7 +21,7 @@ const MemeDrunk = () => {
     try {
       const response = await fetch(`https://meme-api.com/gimme/10?page=${page}`);
       const data = await response.json();
-      setMemes((prev) => [...prev, ...data.memes]); // Add new memes without repeating
+      setMemes((prev) => [...prev, ...data.memes]); // Spread operator to add new memes
     } catch (error) {
       console.error('Error fetching memes:', error);
     }
