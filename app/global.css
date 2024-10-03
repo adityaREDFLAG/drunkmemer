@@ -1,60 +1,68 @@
-/* global.css */
 html, body {
-  font-family: 'Arial', sans-serif;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+  transition: background-color 0.3s ease;
 }
 
 button {
-  background: none;
+  outline: none;
   border: none;
   cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-img {
-  display: block;
-  max-width: 100%;
+.meme-card {
+  margin: 16px;
+  width: 300px;
+  background-color: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.2s ease;
+}
+
+.meme-card:hover {
+  transform: scale(1.05);
+}
+
+.meme-card img {
+  width: 100%;
   height: auto;
+  display: block;
 }
 
-.bg-gray-900 {
-  background-color: #1a202c;
-}
-
-.bg-gray-800 {
-  background-color: #2d3748;
-}
-
-.bg-gray-100 {
-  background-color: #f7fafc;
-}
-
-.text-white {
-  color: #fff;
-}
-
-.text-black {
-  color: #000;
-}
-
-.shadow-md {
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.rounded-lg {
-  border-radius: 0.5rem;
-}
-
-.rounded-t-lg {
-  border-top-left-radius: 0.5rem;
-  border-top-right-radius: 0.5rem;
-}
-
-.flex {
+.like-btn, .share-btn {
+  padding: 10px;
+  border-radius: 50%;
+  background-color: #f2f2f2;
   display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
 }
 
-.grid {
-  display: grid;
+.like-btn:hover, .share-btn:hover {
+  background-color: #ddd;
+}
+
+.load-more-btn {
+  padding: 12px 24px;
+  background-color: #0070f3;
+  color: white;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.load-more-btn:hover {
+  background-color: #005bb5;
+}
+
+.dark-mode .meme-card {
+  background-color: #333;
+  color: white;
+}
+
+.dark-mode .load-more-btn {
+  background-color: #1a73e8;
 }
