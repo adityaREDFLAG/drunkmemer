@@ -66,3 +66,14 @@ button {
 .dark-mode .load-more-btn {
   background-color: #1a73e8;
 }
+
+/* Adjustments for light/dark mode */
+body.dark {
+  background-color: #121212;
+  color: white;
+}
+
+body.light {
+  background-color: white;
+  color: black;
+}
