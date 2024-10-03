@@ -9,15 +9,17 @@ type Meme = {
 };
 
 const MemeDrunk = () => {
+  // Correctly type the state to expect an array of Meme objects
   const [memes, setMemes] = useState<Meme[]>([]);
   const [page, setPage] = useState(1);
   const [likedMemes, setLikedMemes] = useState<Meme[]>([]);
 
+  // Fetch memes whenever the page number changes
   useEffect(() => {
     fetchMemes();
   }, [page]);
 
-  // Load liked memes from localStorage on initial render
+  // Load liked memes from localStorage when the component mounts
   useEffect(() => {
     const storedLikes = localStorage.getItem('likedMemes');
     if (storedLikes) {
@@ -35,7 +37,6 @@ const MemeDrunk = () => {
     }
   };
 
-  // Like a meme and save it to localStorage
   const likeMeme = (meme: Meme) => {
     const isLiked = likedMemes.some((liked) => liked.url === meme.url);
     if (!isLiked) {
@@ -50,7 +51,7 @@ const MemeDrunk = () => {
       {memes.map((meme, index) => (
         <div key={index} className="meme-card">
           <h3>{meme.title}</h3>
-          <img src={meme.url} alt={meme.title} className="meme-image" />
+          <img src={meme.url} alt={meme.title} />
           <div className="buttons">
             <button className="like-btn" onClick={() => likeMeme(meme)}>❤️ Like</button>
             <button className="share-btn">🔗 Share</button>
