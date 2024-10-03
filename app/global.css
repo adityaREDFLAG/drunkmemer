@@ -1,79 +1,71 @@
-.meme-drunk {
-  padding: 20px;
-  text-align: center;
-}
-
-.meme-drunk__container {
+.meme-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px;
-}
-
-.meme-drunk__card {
-  background-color: var(--bg-card);
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  text-align: left;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.meme-drunk__title {
-  font-size: 1.2rem;
-  margin-bottom: 10px;
-}
-
-.meme-drunk__image {
-  width: 100%;
+.meme-card {
+  background-color: #fff;
   border-radius: 10px;
-  margin-bottom: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  text-align: center;
+  padding: 20px;
 }
 
-.meme-drunk__actions {
-  display: flex;
-  justify-content: space-between;
+.meme-image {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  transition: transform 0.3s ease-in-out;
 }
 
-.meme-drunk__like-btn,
-.meme-drunk__share-btn {
-  background-color: var(--btn-bg);
+.meme-image:hover {
+  transform: scale(1.05);
+}
+
+.buttons {
+  margin-top: 10px;
+}
+
+.like-btn, .share-btn {
+  background-color: #007bff;
   border: none;
-  color: var(--btn-text);
-  padding: 10px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.meme-drunk__like-btn:hover,
-.meme-drunk__share-btn:hover {
-  background-color: var(--btn-bg-hover);
-}
-
-.meme-drunk__load-more {
-  margin-top: 20px;
+  color: white;
   padding: 10px 20px;
-  font-size: 1rem;
-  cursor: pointer;
-  background-color: var(--btn-bg);
-  color: var(--btn-text);
-  border: none;
+  font-size: 16px;
+  margin: 5px;
   border-radius: 5px;
-  transition: background-color 0.2s;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.meme-drunk__load-more:hover {
-  background-color: var(--btn-bg-hover);
+.like-btn:hover {
+  background-color: #ff4d4d;
 }
 
-.meme-drunk__load-more:disabled {
-  background-color: var(--btn-bg-disabled);
-  cursor: not-allowed;
+.share-btn:hover {
+  background-color: #00bfff;
 }
 
-.meme-drunk__error {
-  color: red;
-  font-size: 1rem;
-  margin-top: 20px;
+.load-more {
+  background-color: #28a745;
+  border: none;
+  color: white;
+  padding: 15px 30px;
+  font-size: 18px;
+  margin-top: 30px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
+
+.load-more:hover {
+  background-color: #218838;
+}
+
 
 
