@@ -1,6 +1,9 @@
+
+
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import Image from 'next/image';
 
 // Define the type of a meme
 type Meme = {
@@ -13,7 +16,6 @@ const MemeDrunk = () => {
   const [memes, setMemes] = useState<Meme[]>([]);
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [likedMemes, setLikedMemes] = useState<Meme[]>([]);
 
   // Fetch memes when the page number updates
@@ -29,27 +31,24 @@ const MemeDrunk = () => {
     }
   }, []);
 
-  // Fetch memes from API
-  const fetchMemes = async () => {
+  // Fetch memes from API (using useCallback to avoid being recreated every render)
+  const fetchMemes = useCallback(async () => {
     setIsLoading(true);
-    setError(null);
     try {
       const response = await fetch(`https://meme-api.com/gimme/10?page=${page}`);
       if (!response.ok) throw new Error('Failed to fetch memes');
       const data = await response.json();
       setMemes((prev) => [...prev, ...data.memes]);
     } catch (error) {
-      setError('Error fetching memes. Please try again.');
+      console.error('Error fetching memes:', error);
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [page]);
 
   // Like a meme and store it in localStorage
   const likeMeme = (meme: Meme) => {
-    // Check if meme is already liked
     const isAlreadyLiked = likedMemes.some((likedMeme) => likedMeme.url === meme.url);
-
     if (!isAlreadyLiked) {
       const updatedLikes = [...likedMemes, meme];
       setLikedMemes(updatedLikes);
@@ -69,7 +68,14 @@ const MemeDrunk = () => {
         {memes.map((meme, index) => (
           <div key={index} className="meme-drunk__card">
             <h3 className="meme-drunk__title">{meme.title}</h3>
-            <img src={meme.url} alt={meme.title} className="meme-drunk__image" />
+            <Image
+              src={meme.url}
+              alt={meme.title}
+              width={500} // Adjust width based on design
+              height={500} // Adjust height based on design
+              className="meme-drunk__image"
+              priority={index === 0} // prioritize the first image for faster loading
+            />
             <div className="meme-drunk__actions">
               <button className="meme-drunk__like-btn" onClick={() => likeMeme(meme)}>
                 ❤️ Like
@@ -78,8 +84,6 @@ const MemeDrunk = () => {
             </div>
           </div>
         ))}
-
-        {error && <p className="meme-drunk__error">{error}</p>}
 
         {/* Load More Memes button */}
         <button
