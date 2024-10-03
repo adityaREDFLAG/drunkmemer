@@ -50,23 +50,28 @@ export default function Page() {
         </div>
       </header>
       <main className="flex flex-col items-center py-6">
-        {memes.map((meme) => (
-          <div key={meme.id} className="bg-white dark:bg-gray-800 rounded-lg shadow-md mb-6 w-full max-w-md p-4 transition-transform hover:scale-105">
-            <h2 className="text-lg font-semibold mb-2">{meme.title}</h2>
-            <img src={meme.url} alt={meme.title} className="rounded-md w-full mb-2" />
-            <div className="flex justify-between">
-              <button className="like-btn" onClick={() => toggleFavorite(meme.id)}>
-                {favorites.includes(meme.id) ? <FiHeart className="text-red-500" /> : <FiHeart />}
-              </button>
-              <button className="share-btn">
-                <FiShare2 />
-              </button>
+        <div className="grid grid-cols-1 gap-6 w-full max-w-4xl"> {/* Centered layout */}
+          {memes.map((meme) => (
+            <div key={meme.id} className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 transition-transform hover:scale-105">
+              <h2 className="text-lg font-semibold mb-2 text-center">{meme.title}</h2>
+              <img src={meme.url} alt={meme.title} className="rounded-md w-full mb-4 object-contain" />
+              <div className="flex justify-center space-x-4">
+                <button
+                  className={`like-btn p-2 rounded-full border ${favorites.includes(meme.id) ? 'bg-red-500 text-white' : 'border-gray-400 hover:bg-gray-200'}`}
+                  onClick={() => toggleFavorite(meme.id)}
+                >
+                  <FiHeart size={24} />
+                </button>
+                <button className="share-btn p-2 rounded-full border border-gray-400 hover:bg-gray-200">
+                  <FiShare2 size={24} />
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </main>
       <div className="flex justify-center mt-8">
-        <button className="load-more-btn" onClick={loadMoreMemes}>
+        <button className="load-more-btn p-4 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700">
           Load More Memes
         </button>
       </div>
