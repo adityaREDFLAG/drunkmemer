@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { FiHeart, FiShare2 } from 'react-icons/fi';
-import { IoMoon, IoSunny } from 'react-icons/io5'; // Updated icons for sun and moon
+import { IoMoon, IoSunny } from 'react-icons/io5'; // Updated icons
 
 interface Meme {
   id: string;
@@ -22,13 +22,14 @@ export default function Page() {
   };
 
   const loadMoreMemes = async () => {
-    const response = await fetch('https://meme-api.com/gimme/10'); // Fetch 10 memes
+    const response = await fetch('https://meme-api.com/gimme/10');
     const data = await response.json();
     setMemes((prev) => [...prev, ...data.memes]);
   };
 
   const handleToggleDarkMode = () => {
     setDarkMode((prev) => !prev);
+    document.documentElement.classList.toggle('dark', !darkMode);
   };
 
   useEffect(() => {
@@ -48,13 +49,14 @@ export default function Page() {
           </button>
         </div>
       </header>
-      <div className="flex flex-wrap justify-center p-4">
+      <main className="flex flex-col items-center py-6">
         {memes.map((meme) => (
-          <div className="meme-card" key={meme.id}>
-            <img src={meme.url} alt={meme.title} className="rounded-lg shadow-lg" />
-            <div className="flex justify-between mt-2">
+          <div key={meme.id} className="bg-white dark:bg-gray-800 rounded-lg shadow-md mb-6 w-full max-w-md p-4 transition-transform hover:scale-105">
+            <h2 className="text-lg font-semibold mb-2">{meme.title}</h2>
+            <img src={meme.url} alt={meme.title} className="rounded-md w-full mb-2" />
+            <div className="flex justify-between">
               <button className="like-btn" onClick={() => toggleFavorite(meme.id)}>
-                {favorites.includes(meme.id) ? <FiHeart color="red" /> : <FiHeart />}
+                {favorites.includes(meme.id) ? <FiHeart className="text-red-500" /> : <FiHeart />}
               </button>
               <button className="share-btn">
                 <FiShare2 />
@@ -62,7 +64,7 @@ export default function Page() {
             </div>
           </div>
         ))}
-      </div>
+      </main>
       <div className="flex justify-center mt-8">
         <button className="load-more-btn" onClick={loadMoreMemes}>
           Load More Memes
