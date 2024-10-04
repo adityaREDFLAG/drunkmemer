@@ -83,3 +83,19 @@ body {
   --btn-bg-color: #1f78b4;
   --btn-hover-color: #1565a7;
 }
+  .favorites-btn { 
+  background-color: var(--btn-bg-color);
+  color: var(--btn-text-color);
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-bottom: 20px;
+}
+
+.favorites-btn:hover {
+  background-color: var(--btn-hover-color);
+}
+
+
