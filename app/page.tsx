@@ -3,9 +3,15 @@
 import { useState, useEffect } from 'react';
 import { FaHeart, FaShareAlt, FaSun, FaMoon } from 'react-icons/fa';
 
+// Define the type for a meme
+type Meme = {
+  title: string;
+  url: string;
+};
+
 const MemeDrunk = () => {
-  const [memes, setMemes] = useState([]);
-  const [likedMemes, setLikedMemes] = useState([]);
+  const [memes, setMemes] = useState<Meme[]>([]);
+  const [likedMemes, setLikedMemes] = useState<Meme[]>([]);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
@@ -23,7 +29,7 @@ const MemeDrunk = () => {
     }
   };
 
-  const likeMeme = (meme) => {
+  const likeMeme = (meme: Meme) => {
     if (!likedMemes.some((liked) => liked.url === meme.url)) {
       setLikedMemes([...likedMemes, meme]);
     }
