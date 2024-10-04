@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { FaHeart, FaShareAlt, FaStar } from 'react-icons/fa'; // Import custom icons
+import { FaHeart, FaShareAlt, FaStar, FaSun, FaMoon } from 'react-icons/fa'; // Import icons
 
 type Meme = {
   title: string;
@@ -12,7 +12,8 @@ const MemeDrunk = () => {
   const [memes, setMemes] = useState<Meme[]>([]);
   const [page, setPage] = useState(1);
   const [likedMemes, setLikedMemes] = useState<Meme[]>([]);
-  const [showFavorites, setShowFavorites] = useState(false); // Toggle between memes and favorites
+  const [showFavorites, setShowFavorites] = useState(false); // To toggle between memes and favorites
+  const [isDarkMode, setIsDarkMode] = useState(false); // For theme toggling
 
   useEffect(() => {
     fetchMemes();
@@ -25,9 +26,19 @@ const MemeDrunk = () => {
     }
   }, []);
 
+  // Toggle dark and light mode
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+    document.body.setAttribute('data-theme', isDarkMode ? 'light' : 'dark');
+  };
+
   const fetchMemes = async () => {
     try {
-      const response = await fetch(`https://meme-api.com/gimme/10?page=${page}`);
+      // Fetch memes from random subreddits for variety
+      const subreddits = ['memes', 'dankmemes', 'funny', 'AdviceAnimals'];
+      const response = await fetch(
+        `https://meme-api.com/gimme/${subreddits.join(',')}/10?page=${page}`
+      );
       const data = await response.json();
       setMemes((prev) => [...prev, ...data.memes]);
     } catch (error) {
@@ -63,6 +74,11 @@ const MemeDrunk = () => {
 
   return (
     <div className="meme-container">
+      {/* Theme toggle button */}
+      <button className="theme-toggle" onClick={toggleTheme}>
+        {isDarkMode ? <FaSun /> : <FaMoon />}
+      </button>
+
       {/* Favorites button */}
       <button
         className="favorites-btn"
