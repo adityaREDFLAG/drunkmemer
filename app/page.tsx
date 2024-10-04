@@ -13,6 +13,7 @@ const MemeDrunk = () => {
   const [memes, setMemes] = useState<Meme[]>([]);
   const [likedMemes, setLikedMemes] = useState<Meme[]>([]);
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     fetchMemes();
@@ -20,12 +21,20 @@ const MemeDrunk = () => {
 
   const fetchMemes = async () => {
     try {
+      setError(null); // Reset error state before fetching
       const subreddits = ['memes', 'dankmemes', 'funny', 'AdviceAnimals'];
       const response = await fetch(`https://meme-api.com/gimme/${subreddits.join(',')}/10`);
       const data = await response.json();
-      setMemes(data.memes);
+
+      // Check if data contains memes array
+      if (data.memes && Array.isArray(data.memes)) {
+        setMemes(data.memes);
+      } else {
+        throw new Error('Invalid data structure');
+      }
     } catch (error) {
       console.error('Error fetching memes:', error);
+      setError('Failed to load memes. Please try again later.');
     }
   };
 
@@ -49,21 +58,25 @@ const MemeDrunk = () => {
         </button>
       </header>
 
-      <div className="meme-grid">
-        {memes.map((meme, index) => (
-          <div key={index} className="meme-card">
-            <img src={meme.url} alt={meme.title} className="meme-image" />
-            <div className="meme-actions">
-              <button onClick={() => likeMeme(meme)} className="like-btn">
-                <FaHeart /> Like
-              </button>
-              <button className="share-btn">
-                <FaShareAlt /> Share
-              </button>
+      {error ? (
+        <div className="error-message">{error}</div>
+      ) : (
+        <div className="meme-grid">
+          {memes.map((meme, index) => (
+            <div key={index} className="meme-card">
+              <img src={meme.url} alt={meme.title} className="meme-image" />
+              <div className="meme-actions">
+                <button onClick={() => likeMeme(meme)} className="like-btn">
+                  <FaHeart /> Like
+                </button>
+                <button className="share-btn">
+                  <FaShareAlt /> Share
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
 
       <footer>
         <button onClick={fetchMemes} className="load-more">Load More Memes</button>
