@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { FaHeart, FaShareAlt, FaStar, FaSun, FaMoon } from 'react-icons/fa';
+import { FaHeart, FaShareAlt, FaSun, FaMoon } from 'react-icons/fa';
 
 const MemeDrunk = () => {
   const [memes, setMemes] = useState([]);
