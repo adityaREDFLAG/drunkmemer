@@ -22,8 +22,7 @@ const MemeDrunk = () => {
   const fetchMemes = async () => {
     try {
       setError(null); // Reset error state before fetching
-      const subreddits = ['memes', 'dankmemes', 'funny', 'AdviceAnimals'];
-      const response = await fetch(`https://meme-api.com/gimme/${subreddits.join(',')}/10`);
+      const response = await fetch(`https://meme-api.com/gimme/10`);
       const data = await response.json();
 
       // Check if data contains memes array
