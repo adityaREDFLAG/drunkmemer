@@ -1,67 +1,82 @@
-
+/* Global styling for both dark and light modes */
 body {
-  font-family: 'Arial', sans-serif;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
   background-color: var(--bg-color);
   color: var(--text-color);
   transition: background-color 0.3s ease, color 0.3s ease;
+  margin: 0;
+  padding: 0;
 }
 
-.meme-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.container {
+  max-width: 800px;
   margin: 0 auto;
-  max-width: 600px;
-  padding: 10px;
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.meme-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
 }
 
 .meme-card {
   background-color: var(--card-bg-color);
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin: 20px 0;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
   padding: 15px;
-  width: 100%;
-  transition: background-color 0.3s ease;
+  transition: transform 0.2s ease;
 }
 
-.meme-card img {
-  max-width: 100%;
+.meme-card:hover {
+  transform: translateY(-10px);
+}
+
+.meme-image {
+  width: 100%;
   height: auto;
   border-radius: 10px;
-  margin-bottom: 10px;
 }
 
-.buttons {
+.meme-actions {
   display: flex;
   justify-content: space-between;
+  margin-top: 10px;
 }
 
-.like-btn,
-.share-btn,
-.load-more,
-.favorites-btn {
+button {
   background-color: var(--btn-bg-color);
   color: var(--btn-text-color);
   border: none;
   border-radius: 5px;
-  padding: 10px;
+  padding: 8px 12px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
-.like-btn:hover,
-.share-btn:hover,
-.load-more:hover,
-.favorites-btn:hover {
+button:hover {
   background-color: var(--btn-hover-color);
 }
 
-/* Dark and light mode variables */
+.theme-toggle {
+  font-size: 24px;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+/* Dark and Light Mode Variables */
 :root {
-  --bg-color: #f0f0f0;
+  --bg-color: #f9f9f9;
   --text-color: #333;
-  --card-bg-color: #fff;
+  --card-bg-color: #ffffff;
   --btn-bg-color: #007bff;
   --btn-text-color: #fff;
   --btn-hover-color: #0056b3;
@@ -74,4 +89,3 @@ body {
   --btn-bg-color: #1f78b4;
   --btn-hover-color: #1565a7;
 }
-
