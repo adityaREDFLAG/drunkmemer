@@ -14,21 +14,26 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [likedMemes, setLikedMemes] = useState<Meme[]>([]);
   const [activeTab, setActiveTab] = useState('home');
+  const [fetchedUrls, setFetchedUrls] = useState<Set<string>>(new Set());
 
-  // Load liked memes from localStorage on component mount
   useEffect(() => {
     const storedLikes = JSON.parse(localStorage.getItem('likedMemes') || '[]');
     setLikedMemes(storedLikes);
     fetchMemes();
   }, []);
 
-  // Fetch memes from the API
   const fetchMemes = async () => {
     setLoading(true);
     try {
       const response = await fetch('https://meme-api.com/gimme/10');
       const data = await response.json();
-      setMemes((prevMemes) => [...prevMemes, ...data.memes]);
+      
+      const newMemes = data.memes.filter((meme: Meme) => !fetchedUrls.has(meme.url));
+
+      if (newMemes.length > 0) {
+        setMemes((prevMemes) => [...prevMemes, ...newMemes]);
+        setFetchedUrls((prevUrls) => new Set([...prevUrls, ...newMemes.map(meme => meme.url)]));
+      }
     } catch (error) {
       console.error('Error fetching memes:', error);
     } finally {
@@ -36,7 +41,6 @@ export default function Home() {
     }
   };
 
-  // Handle like/unlike meme with animation
   const handleLike = (meme: Meme) => {
     const isLiked = likedMemes.some((likedMeme) => likedMeme.url === meme.url);
     let updatedLikedMemes;
@@ -51,7 +55,6 @@ export default function Home() {
     localStorage.setItem('likedMemes', JSON.stringify(updatedLikedMemes));
   };
 
-  // Share meme using Web Share API
   const handleShare = async (meme: Meme) => {
     if (navigator.share) {
       try {
@@ -67,25 +70,24 @@ export default function Home() {
     }
   };
 
-  // Handle switching between tabs (Home/Favorites)
   const switchTab = (tab: string) => {
     setActiveTab(tab);
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-gray-100">
-      <h1 className="text-center text-4xl font-extrabold text-white mb-8 py-4">Drunk Memer</h1>
+    <div className="min-h-screen bg-dark text-light">
+      <h1 className="text-center text-4xl font-extrabold text-accent mb-8 py-4">Drunk Memer</h1>
 
       {/* Tab Navigation */}
       <div className="flex justify-center space-x-6 mb-6">
         <button
-          className={`text-xl font-bold py-2 px-4 ${activeTab === 'home' ? 'text-yellow-500' : 'text-gray-400'}`}
+          className={`text-xl font-bold py-2 px-4 ${activeTab === 'home' ? 'text-accent' : 'text-gray-400'}`}
           onClick={() => switchTab('home')}
         >
           Home
         </button>
         <button
-          className={`text-xl font-bold py-2 px-4 ${activeTab === 'favorites' ? 'text-yellow-500' : 'text-gray-400'}`}
+          className={`text-xl font-bold py-2 px-4 ${activeTab === 'favorites' ? 'text-accent' : 'text-gray-400'}`}
           onClick={() => switchTab('favorites')}
         >
           Favorites ❤️
@@ -110,7 +112,7 @@ export default function Home() {
                   <button
                     className={`text-2xl transition-transform duration-300 ${
                       likedMemes.some((likedMeme) => likedMeme.url === meme.url)
-                        ? 'text-red-500 scale-125'
+                        ? 'text-accent scale-125'
                         : 'text-gray-400'
                     }`}
                     onClick={() => handleLike(meme)}
@@ -124,7 +126,7 @@ export default function Home() {
 
                   {/* Share button */}
                   <button
-                    className="text-2xl text-gray-400 hover:text-yellow-400 transition-colors"
+                    className="text-2xl text-gray-400 hover:text-accent transition-colors"
                     onClick={() => handleShare(meme)}
                   >
                     <BiShareAlt />
@@ -141,7 +143,7 @@ export default function Home() {
         <div className="flex justify-center mt-10">
           <button
             onClick={fetchMemes}
-            className="bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold py-3 px-8 rounded-full shadow-lg transition duration-200 ease-in-out"
+            className="btn-primary"
             disabled={loading}
           >
             {loading ? 'Loading...' : 'Load More Memes'}
