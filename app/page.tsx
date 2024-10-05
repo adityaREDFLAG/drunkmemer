@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
-import { BiShareAlt } from 'react-icons/bi'; // Share icon
+import { BiHomeCircle, BiHeartCircle, BiShareAlt } from 'react-icons/bi'; // Home, Favorites, and Share icons
 
 interface Meme {
   url: string;
@@ -72,22 +72,6 @@ export default function Home() {
     <div className="min-h-screen bg-dark text-light">
       <h1 className="header">Drunk Memer</h1>
 
-      {/* Tab Navigation */}
-      <div className="flex justify-center space-x-6 mb-6">
-        <button
-          className={`text-xl font-bold py-2 px-4 ${activeTab === 'home' ? 'text-accent' : 'text-gray-400'}`}
-          onClick={() => switchTab('home')}
-        >
-          Home
-        </button>
-        <button
-          className={`text-xl font-bold py-2 px-4 ${activeTab === 'favorites' ? 'text-accent' : 'text-gray-400'}`}
-          onClick={() => switchTab('favorites')}
-        >
-          Favorites ❤️
-        </button>
-      </div>
-
       {/* Single Meme View */}
       <div className="flex flex-col items-center">
         {(activeTab === 'home' ? memes : likedMemes).map((meme, index) => (
@@ -103,10 +87,10 @@ export default function Home() {
               {/* Like/Unlike button with animation */}
               <div className="flex space-x-4 items-center">
                 <button
-                  className={`text-2xl transition-transform duration-300 ${
+                  className={`icon ${
                     likedMemes.some((likedMeme) => likedMeme.url === meme.url)
-                      ? 'text-accent scale-125'
-                      : 'text-gray-400'
+                      ? 'icon-like-active'
+                      : 'icon-like'
                   }`}
                   onClick={() => handleLike(meme)}
                 >
@@ -119,7 +103,7 @@ export default function Home() {
 
                 {/* Share button */}
                 <button
-                  className="text-2xl text-gray-400 hover:text-accent transition-colors"
+                  className="icon icon-share"
                   onClick={() => handleShare(meme)}
                 >
                   <BiShareAlt />
@@ -128,6 +112,22 @@ export default function Home() {
             </div>
           </div>
         ))}
+      </div>
+
+      {/* Navigation Bar */}
+      <div className="nav-bar">
+        <button
+          className={`nav-button ${activeTab === 'home' ? 'nav-button-active' : ''}`}
+          onClick={() => switchTab('home')}
+        >
+          <BiHomeCircle className="icon" />
+        </button>
+        <button
+          className={`nav-button ${activeTab === 'favorites' ? 'nav-button-active' : ''}`}
+          onClick={() => switchTab('favorites')}
+        >
+          <BiHeartCircle className="icon" />
+        </button>
       </div>
 
       {/* Load More Button */}
