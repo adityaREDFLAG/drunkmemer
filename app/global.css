@@ -14,11 +14,26 @@
   }
 }
 
+@keyframes like-burst {
+  0% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(1.4);
+    filter: brightness(1.5);
+  }
+  100% {
+    transform: scale(1.1);
+    filter: brightness(1.2);
+  }
+}
+
 :root {
   --background: #1a1a1a;   /* Darker background for better contrast */
   --foreground: #f0f0f0;   /* Softer white for text */
   --primary-accent: #ffffff;  /* White for active buttons */
-  --hover-accent: #28a745;   /* Bright green for hover effects, can be removed */
+  --hover-accent: #444444;   /* Darker grey for hover effects for better contrast */
   --card-bg: #222222;       /* Slightly darker grey for card background */
   --card-text: #f0f0f0;     /* Light text for cards */
   --like-color: #f44336;    /* Red color for liked icon */
@@ -38,8 +53,15 @@ button {
   color: var(--button-text);
   border-radius: 8px;
   padding: 0.5rem 1rem;
-  transition: transform 0.2s ease, box-shadow 0.3s ease; /* Removed background-color transition */
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
   font-weight: 600;
+}
+
+button:hover {
+  background-color: var(--hover-accent);
+  transform: scale(1.1);
+  animation: heat 0.5s ease forwards;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
 }
 
 .card {
@@ -61,13 +83,15 @@ button {
   transition: color 0.2s ease;
 }
 
-.icon-like {
-  color: var(--foreground); /* Default icon color */
-  transition: color 0.3s ease;
+/* Updated like button animation */
+.icon-like-active {
+  color: var(--like-color); /* Red color for liked icon */
+  animation: like-burst 0.4s ease-in-out; /* Apply like burst animation */
 }
 
-.icon-like-active {
-  color: var(--like-color); /* Red color when liked */
+.icon-like {
+  color: var(--foreground);
+  transition: color 0.3s ease;
 }
 
 .icon-share {
@@ -75,7 +99,7 @@ button {
 }
 
 .icon:hover {
-  color: var(--hover-accent); /* Hover effect */
+  color: var(--hover-accent);
 }
 
 /* Navigation Bar */
@@ -100,7 +124,7 @@ button {
 }
 
 .nav-button:hover {
-  color: var(--hover-accent); /* Removed hover effect */
+  color: var(--hover-accent);
 }
 
 .nav-button-active {
@@ -113,8 +137,15 @@ button {
   color: var(--button-text);
   padding: 0.75rem 1.5rem;
   border-radius: 8px;
-  transition: transform 0.2s ease, box-shadow 0.3s ease; /* Removed background-color transition */
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
   font-weight: 600;
+}
+
+.btn-primary:hover {
+  background-color: var(--hover-accent);
+  transform: scale(1.1);
+  animation: heat 0.5s ease forwards;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
 }
 
 .text-gray-400 {
