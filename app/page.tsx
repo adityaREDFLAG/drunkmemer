@@ -1,5 +1,4 @@
-
-'use client'; // Make the component interactive
+'use client'; // Client component for interactivity
 
 import { useState, useEffect } from 'react';
 
@@ -57,42 +56,51 @@ export default function Home() {
   };
 
   return (
-    <div className="p-6">
-      <h1 className="text-center text-3xl font-bold text-gray-900 mb-6">Drunk Memer</h1>
+    <div className="min-h-screen bg-gray-900 text-gray-100 p-6">
+      <h1 className="text-center text-4xl font-extrabold text-white mb-8">Drunk Memer</h1>
 
+      {/* Meme Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {memes.map((meme, index) => (
-          <div key={index} className="bg-gray-800 rounded-lg p-4 shadow-md">
-            <img src={meme.url} alt={meme.title} className="rounded-lg mb-4" />
-            <p className="text-white">{meme.title}</p>
+          <div key={index} className="bg-gray-800 rounded-lg overflow-hidden shadow-lg transform hover:scale-105 transition-transform duration-300">
+            <img
+              src={meme.url}
+              alt={meme.title}
+              className="w-full h-60 object-cover"
+            />
+            <div className="p-4">
+              <p className="text-lg font-semibold mb-4 truncate text-gray-200">{meme.title}</p>
 
-            {/* Like and Share buttons */}
-            <div className="mt-4 flex justify-between items-center">
-              <button
-                className="bg-green-500 text-white py-1 px-3 rounded hover:bg-green-600 transition"
-                onClick={() => handleLike(index)}
-              >
-                Like ({likes[index]})
-              </button>
-              <button
-                className="bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600 transition"
-                onClick={() => handleShare(meme)}
-              >
-                Share
-              </button>
+              {/* Like and Share buttons */}
+              <div className="flex justify-between items-center">
+                <button
+                  className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg shadow transition duration-200 ease-in-out"
+                  onClick={() => handleLike(index)}
+                >
+                  Like ❤️ ({likes[index]})
+                </button>
+                <button
+                  className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow transition duration-200 ease-in-out"
+                  onClick={() => handleShare(meme)}
+                >
+                  Share 🔗
+                </button>
+              </div>
             </div>
           </div>
         ))}
       </div>
 
       {/* Load More Button */}
-      <button
-        onClick={fetchMemes}
-        className="mt-8 bg-yellow-500 text-gray-900 py-2 px-6 rounded-lg hover:bg-yellow-600 transition"
-        disabled={loading}
-      >
-        {loading ? 'Loading...' : 'Load More Memes'}
-      </button>
+      <div className="flex justify-center mt-10">
+        <button
+          onClick={fetchMemes}
+          className="bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold py-3 px-8 rounded-full shadow-lg transition duration-200 ease-in-out"
+          disabled={loading}
+        >
+          {loading ? 'Loading...' : 'Load More Memes'}
+        </button>
+      </div>
     </div>
   );
 }
