@@ -1,58 +1,21 @@
-'use client'; // Client component for interactivity
-
-import { useState, useEffect, useRef } from 'react';
-import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
-import { BiHomeCircle, BiHeartCircle, BiShareAlt } from 'react-icons/bi'; // Home, Favorites, and Share icons
-
-interface Meme {
-  url: string;
-  title: string;
-}
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { FaHeart, FaShareAlt, FaHome, FaStar, FaSearch } from 'react-icons/fa';
 
 export default function Home() {
-  const [memes, setMemes] = useState<Meme[]>([]);
+  const [memes, setMemes] = useState([]);
+  const [likedMemes, setLikedMemes] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
-  const [likedMemes, setLikedMemes] = useState<Meme[]>([]);
-  const [activeTab, setActiveTab] = useState('home');
-  const loadMoreRef = useRef<HTMLDivElement | null>(null); // Ref for load more div
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredMemes, setFilteredMemes] = useState([]);
 
-  useEffect(() => {
-    const storedLikes = JSON.parse(localStorage.getItem('likedMemes') || '[]');
-    setLikedMemes(storedLikes);
-    fetchMemes();
-  }, []);
-
-  // Infinite scroll logic
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && !loading && activeTab === 'home') {
-          fetchMemes();
-        }
-      },
-      {
-        rootMargin: '100px',
-      }
-    );
-
-    if (loadMoreRef.current) {
-      observer.observe(loadMoreRef.current);
-    }
-
-    return () => {
-      if (loadMoreRef.current) {
-        observer.unobserve(loadMoreRef.current);
-      }
-    };
-  }, [loading, activeTab]);
-
+  // Function to fetch random memes
   const fetchMemes = async () => {
-    setLoading(true);
     try {
-      const response = await fetch('https://meme-api.com/gimme/10');
-      const data = await response.json();
-      
-      setMemes((prevMemes) => [...prevMemes, ...data.memes]);
+      setLoading(true);
+      const response = await axios.get('https://meme-api.com/gimme/10');
+      setMemes((prevMemes) => [...prevMemes, ...response.data.memes]);
+      setFilteredMemes((prevMemes) => [...prevMemes, ...response.data.memes]); // Store filtered memes for search
     } catch (error) {
       console.error('Error fetching memes:', error);
     } finally {
@@ -60,100 +23,81 @@ export default function Home() {
     }
   };
 
-  const handleLike = (meme: Meme) => {
-    const isLiked = likedMemes.some((likedMeme) => likedMeme.url === meme.url);
-    let updatedLikedMemes;
+  useEffect(() => {
+    fetchMemes();
+  }, []);
 
-    if (isLiked) {
-      updatedLikedMemes = likedMemes.filter((likedMeme) => likedMeme.url !== meme.url);
+  // Function to handle search input
+  const handleSearch = (e) => {
+    setSearchQuery(e.target.value);
+    if (e.target.value === '') {
+      setFilteredMemes(memes); // Reset to all memes if search is cleared
     } else {
-      updatedLikedMemes = [...likedMemes, meme];
-    }
-
-    setLikedMemes(updatedLikedMemes);
-    localStorage.setItem('likedMemes', JSON.stringify(updatedLikedMemes));
-  };
-
-  const handleShare = async (meme: Meme) => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: meme.title,
-          url: meme.url,
-        });
-      } catch (error) {
-        console.error('Error sharing meme:', error);
-      }
-    } else {
-      alert('Sharing is not supported on this device.');
+      const filtered = memes.filter((meme) =>
+        meme.title.toLowerCase().includes(e.target.value.toLowerCase())
+      );
+      setFilteredMemes(filtered);
     }
   };
 
-  const switchTab = (tab: string) => {
-    setActiveTab(tab);
+  const toggleLike = (url: string) => {
+    if (likedMemes.includes(url)) {
+      setLikedMemes(likedMemes.filter((likedUrl) => likedUrl !== url));
+    } else {
+      setLikedMemes([...likedMemes, url]);
+    }
   };
 
   return (
-    <div className="min-h-screen">
-      <h1 className="header">Drunk Memer</h1>
+    <div className="container">
+      <h1 className="text-center text-3xl font-bold mb-6">Drunk Memer</h1>
+      
+      {/* Search Bar */}
+      <div className="search-bar flex justify-center mb-6">
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={handleSearch}
+          placeholder="Search memes..."
+          className="search-input border p-2 rounded w-80"
+        />
+        <button className="icon-search ml-2">
+          <FaSearch />
+        </button>
+      </div>
 
-      {/* Single Meme View */}
-      <div className="flex flex-col items-center">
-        {(activeTab === 'home' ? memes : likedMemes).map((meme, index) => (
-          <div key={index} className="w-full sm:w-3/4 md:w-2/4 lg:w-1/3 card">
-            <img
-              src={meme.url}
-              alt={meme.title}
-              className="w-full h-auto object-contain"
-            />
-            <div className="p-4 flex justify-between items-center">
-              <p className="text-lg font-semibold truncate card-text">{meme.title}</p>
-
-              <div className="flex space-x-4 items-center">
+      <div className="meme-container">
+        {filteredMemes.length > 0 ? (
+          filteredMemes.map((meme, index) => (
+            <div key={index} className="card">
+              <img src={meme.url} alt="Meme" className="meme-image" />
+              <p className="meme-title">{meme.title}</p>
+              <div className="actions">
                 <button
-                  className={`icon ${
-                    likedMemes.some((likedMeme) => likedMeme.url === meme.url)
-                      ? 'icon-like-active'
-                      : 'icon-like'
-                  }`}
-                  onClick={() => handleLike(meme)}
+                  className={`icon ${likedMemes.includes(meme.url) ? 'icon-like-active' : 'icon-like'}`}
+                  onClick={() => toggleLike(meme.url)}
                 >
-                  {likedMemes.some((likedMeme) => likedMeme.url === meme.url) ? (
-                    <AiFillHeart />
-                  ) : (
-                    <AiOutlineHeart />
-                  )}
+                  <FaHeart />
                 </button>
-
-                {/* Share button */}
-                <button
-                  className="icon icon-share"
-                  onClick={() => handleShare(meme)}
-                >
-                  <BiShareAlt />
+                <button className="icon icon-share">
+                  <FaShareAlt />
                 </button>
               </div>
             </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p>No memes found for "{searchQuery}".</p>
+        )}
+        {loading && <p>Loading...</p>}
       </div>
-
-      {/* Infinite Scroll Trigger */}
-      <div ref={loadMoreRef} className="h-20" />
 
       {/* Navigation Bar */}
       <div className="nav-bar">
-        <button
-          className={`nav-button ${activeTab === 'home' ? 'nav-button-active' : ''}`}
-          onClick={() => switchTab('home')}
-        >
-          <BiHomeCircle />
+        <button className="nav-button">
+          <FaHome />
         </button>
-        <button
-          className={`nav-button ${activeTab === 'favorites' ? 'nav-button-active' : ''}`}
-          onClick={() => switchTab('favorites')}
-        >
-          <BiHeartCircle />
+        <button className="nav-button">
+          <FaStar />
         </button>
       </div>
     </div>
