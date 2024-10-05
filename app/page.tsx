@@ -1,6 +1,7 @@
-'use client'; // For client-side interactions
+'use client'; // Client component for interactivity
 
 import { useState, useEffect } from 'react';
+import { AiFillStar, AiOutlineStar } from 'react-icons/ai'; // Import React Icons for stars
 
 interface Meme {
   url: string;
@@ -10,12 +11,13 @@ interface Meme {
 export default function Home() {
   const [memes, setMemes] = useState<Meme[]>([]);
   const [loading, setLoading] = useState(false);
-  const [likes, setLikes] = useState<number[]>([]);
   const [likedMemes, setLikedMemes] = useState<Meme[]>([]);
   const [activeTab, setActiveTab] = useState('home'); // Toggle between Home and Favorites
 
-  // Fetch memes on component mount
+  // Load liked memes from localStorage on component mount
   useEffect(() => {
+    const storedLikes = JSON.parse(localStorage.getItem('likedMemes') || '[]');
+    setLikedMemes(storedLikes);
     fetchMemes();
   }, []);
 
@@ -26,7 +28,6 @@ export default function Home() {
       const response = await fetch('https://meme-api.com/gimme/10');
       const data = await response.json();
       setMemes((prevMemes) => [...prevMemes, ...data.memes]);
-      setLikes((prevLikes) => [...prevLikes, ...Array(data.memes.length).fill(0)]); // Set initial likes to zero
     } catch (error) {
       console.error('Error fetching memes:', error);
     } finally {
@@ -34,18 +35,19 @@ export default function Home() {
     }
   };
 
-  // Handle like/unlike button
-  const handleLike = (index: number, meme: Meme) => {
-    const newLikes = [...likes];
-    // Toggle like/unlike logic
-    if (newLikes[index] === 0) {
-      newLikes[index] = 1;
-      setLikedMemes((prevLikedMemes) => [...prevLikedMemes, meme]); // Add meme to favorites
+  // Handle like/unlike meme
+  const handleLike = (meme: Meme) => {
+    const isLiked = likedMemes.some((likedMeme) => likedMeme.url === meme.url);
+    let updatedLikedMemes;
+
+    if (isLiked) {
+      updatedLikedMemes = likedMemes.filter((likedMeme) => likedMeme.url !== meme.url);
     } else {
-      newLikes[index] = 0;
-      setLikedMemes((prevLikedMemes) => prevLikedMemes.filter((likedMeme) => likedMeme.url !== meme.url)); // Remove from favorites
+      updatedLikedMemes = [...likedMemes, meme];
     }
-    setLikes(newLikes);
+
+    setLikedMemes(updatedLikedMemes);
+    localStorage.setItem('likedMemes', JSON.stringify(updatedLikedMemes)); // Save to localStorage
   };
 
   // Handle switching between tabs (Home/Favorites)
@@ -69,7 +71,7 @@ export default function Home() {
           className={`text-xl font-bold py-2 px-4 ${activeTab === 'favorites' ? 'text-yellow-500' : 'text-gray-400'}`}
           onClick={() => switchTab('favorites')}
         >
-          Favorites ❤️
+          Favorites ⭐
         </button>
       </div>
 
@@ -92,11 +94,14 @@ export default function Home() {
               <div className="flex justify-center">
                 <button
                   className={`${
-                    likes[index] === 1 ? 'text-red-500' : 'text-gray-400'
+                    likedMemes.some((likedMeme) => likedMeme.url === meme.url)
+                      ? 'text-yellow-400'
+                      : 'text-gray-400'
                   } font-bold text-2xl`}
-                  onClick={() => handleLike(index, meme)}
+                  onClick={() => handleLike(meme)}
                 >
-                  ❤️
+                  {/* Toggle between filled and outlined star based on like status */}
+                  {likedMemes.some((likedMeme) => likedMeme.url === meme.url) ? <AiFillStar /> : <AiOutlineStar />}
                 </button>
               </div>
             </div>
