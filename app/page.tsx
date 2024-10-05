@@ -69,22 +69,21 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-dark text-light">
+    <div className="min-h-screen">
       <h1 className="header">Drunk Memer</h1>
 
       {/* Single Meme View */}
       <div className="flex flex-col items-center">
         {(activeTab === 'home' ? memes : likedMemes).map((meme, index) => (
-          <div key={index} className="w-full sm:w-3/4 md:w-2/4 lg:w-1/3 mb-10 card">
+          <div key={index} className="w-full sm:w-3/4 md:w-2/4 lg:w-1/3 card">
             <img
               src={meme.url}
               alt={meme.title}
-              className="w-full h-auto object-contain transition-transform duration-500 ease-in-out hover:scale-105"
+              className="w-full h-auto object-contain"
             />
             <div className="p-4 flex justify-between items-center">
               <p className="text-lg font-semibold truncate card-text">{meme.title}</p>
 
-              {/* Like/Unlike button with animation */}
               <div className="flex space-x-4 items-center">
                 <button
                   className={`icon ${
@@ -120,13 +119,13 @@ export default function Home() {
           className={`nav-button ${activeTab === 'home' ? 'nav-button-active' : ''}`}
           onClick={() => switchTab('home')}
         >
-          <BiHomeCircle className="icon" />
+          <BiHomeCircle />
         </button>
         <button
           className={`nav-button ${activeTab === 'favorites' ? 'nav-button-active' : ''}`}
           onClick={() => switchTab('favorites')}
         >
-          <BiHeartCircle className="icon" />
+          <BiHeartCircle />
         </button>
       </div>
 
@@ -134,8 +133,8 @@ export default function Home() {
       {activeTab === 'home' && (
         <div className="flex justify-center mt-10">
           <button
-            onClick={fetchMemes}
             className="btn-primary"
+            onClick={fetchMemes}
             disabled={loading}
           >
             {loading ? 'Loading...' : 'Load More Memes'}
