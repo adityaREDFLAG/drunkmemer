@@ -1,6 +1,6 @@
 'use client'; // Client component for interactivity
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { BiHomeCircle, BiHeartCircle, BiShareAlt } from 'react-icons/bi'; // Home, Favorites, and Share icons
 
@@ -14,12 +14,37 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [likedMemes, setLikedMemes] = useState<Meme[]>([]);
   const [activeTab, setActiveTab] = useState('home');
+  const loadMoreRef = useRef<HTMLDivElement | null>(null); // Ref for load more div
 
   useEffect(() => {
     const storedLikes = JSON.parse(localStorage.getItem('likedMemes') || '[]');
     setLikedMemes(storedLikes);
     fetchMemes();
   }, []);
+
+  // Infinite scroll logic
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !loading && activeTab === 'home') {
+          fetchMemes();
+        }
+      },
+      {
+        rootMargin: '100px',
+      }
+    );
+
+    if (loadMoreRef.current) {
+      observer.observe(loadMoreRef.current);
+    }
+
+    return () => {
+      if (loadMoreRef.current) {
+        observer.unobserve(loadMoreRef.current);
+      }
+    };
+  }, [loading, activeTab]);
 
   const fetchMemes = async () => {
     setLoading(true);
@@ -113,6 +138,9 @@ export default function Home() {
         ))}
       </div>
 
+      {/* Infinite Scroll Trigger */}
+      <div ref={loadMoreRef} className="h-20" />
+
       {/* Navigation Bar */}
       <div className="nav-bar">
         <button
@@ -128,19 +156,6 @@ export default function Home() {
           <BiHeartCircle />
         </button>
       </div>
-
-      {/* Load More Button */}
-      {activeTab === 'home' && (
-        <div className="flex justify-center mt-10">
-          <button
-            className="btn-primary"
-            onClick={fetchMemes}
-            disabled={loading}
-          >
-            {loading ? 'Loading...' : 'Load More Memes'}
-          </button>
-        </div>
-      )}
     </div>
   );
 }
