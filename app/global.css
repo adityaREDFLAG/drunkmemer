@@ -3,12 +3,15 @@
 @tailwind utilities;
 
 :root {
-  --background: #121212;  /* Dark soft black */
-  --foreground: #e0e0e0;  /* Softer white for text */
-  --accent: #f97316;      /* Modern vibrant orange */
-  --card-bg: #1c1c1c;     /* Dark grey for card backgrounds */
-  --card-text: #f2f2f2;   /* Light text for cards */
-  --hover-accent: #ff8c00; /* Hover effect - Lighter orange */
+  --background: #1a1a1a;   /* Darker background for better contrast */
+  --foreground: #f0f0f0;   /* Softer white for text */
+  --primary-accent: #f57c00;  /* Softer vibrant orange */
+  --hover-accent: #ffa726;   /* Lighter orange for hover effects */
+  --card-bg: #222222;       /* Slightly darker grey for card background */
+  --card-text: #f0f0f0;     /* Light text for cards */
+  --like-color: #f44336;    /* Red color for liked icon */
+  --button-bg: #333333;     /* Dark background for buttons */
+  --button-text: #f0f0f0;   /* Light button text */
 }
 
 body {
@@ -18,120 +21,98 @@ body {
   margin: 0;
 }
 
-a {
-  color: var(--accent);
-  text-decoration: none;
-}
-
 button {
-  background-color: var(--accent);
-  color: var(--foreground);
+  background-color: var(--button-bg);
+  color: var(--button-text);
   border-radius: 8px;
   padding: 0.5rem 1rem;
-  transition: background-color 0.3s ease-in-out;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-weight: 600;
 }
 
 button:hover {
   background-color: var(--hover-accent);
+  transform: scale(1.05);
 }
 
-@layer utilities {
-  .btn-primary {
-    background-color: var(--accent);
-    color: var(--foreground);
-    padding: 0.75rem 1.5rem;
-    border-radius: 8px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    font-weight: 600;
-  }
+.card {
+  background-color: var(--card-bg);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 
-  .btn-primary:hover {
-    background-color: var(--hover-accent);
-    transform: scale(1.05);
-  }
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+}
 
-  .btn-disabled {
-    background-color: #444;
-    color: #999;
-    cursor: not-allowed;
-  }
+.icon {
+  font-size: 2rem;
+  transition: color 0.2s ease;
+}
 
-  .card {
-    background-color: var(--card-bg);
-    border-radius: 12px;
-    padding: 16px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
-    margin-bottom: 2rem;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
+.icon-like {
+  color: var(--foreground);
+}
 
-  .card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
-  }
+.icon-like-active {
+  color: var(--like-color); /* Light red for liked state */
+}
 
-  .card-text {
-    color: var(--card-text);
-    font-size: 1.1rem;
-  }
+.icon-share {
+  color: var(--foreground);
+}
 
-  .header {
-    font-size: 2.5rem;
-    font-weight: 800;
-    text-align: center;
-    margin-bottom: 1.5rem;
-    color: var(--accent);
-  }
+.icon:hover {
+  color: var(--hover-accent);
+}
 
-  .nav-bar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 60px;
-    background-color: #1a1a1a;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    border-top: 1px solid #333;
-  }
+/* Navigation Bar */
+.nav-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background-color: #1c1c1c;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-top: 1px solid #333;
+}
 
-  .nav-button {
-    color: var(--foreground);
-    font-size: 1.6rem;
-    transition: color 0.2s ease;
-  }
+.nav-button {
+  color: var(--foreground);
+  font-size: 1.6rem;
+  transition: color 0.2s ease;
+}
 
-  .nav-button:hover {
-    color: var(--hover-accent);
-  }
+.nav-button:hover {
+  color: var(--hover-accent);
+}
 
-  .nav-button-active {
-    color: var(--accent);
-  }
+.nav-button-active {
+  color: var(--primary-accent); /* Primary orange for active tab */
+}
 
-  .icon {
-    font-size: 2rem;
-    transition: color 0.2s ease;
-  }
+/* Button Styles */
+.btn-primary {
+  background-color: var(--primary-accent);
+  color: var(--button-text);
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-weight: 600;
+}
 
-  .icon-like {
-    color: var(--foreground);
-  }
+.btn-primary:hover {
+  background-color: var(--hover-accent);
+  transform: scale(1.05);
+}
 
-  .icon-like-active {
-    color: red;
-  }
-
-  .icon-share {
-    color: var(--foreground);
-  }
-
-  .icon:hover {
-    color: var(--hover-accent);
-  }
-
-  .text-gray-400 {
-    color: #888888;
-  }
+.text-gray-400 {
+  color: #888888;
 }
