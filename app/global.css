@@ -99,4 +99,41 @@ button:hover {
     justify-content: center;
     align-items: center;
   }
-}
+
+  /* Nav bar */
+  .nav-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background-color: #1a1a1a;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 1px solid #333;
+  }
+
+  .nav-button {
+    color: #ffffff;
+    font-size: 1.8rem;
+    transition: color 0.2s ease;
+  }
+
+  .nav-button-active {
+    color: var(--accent);
+  }
+
+  .nav-button:hover {
+    color: var(--accent);
+  }
+
+  /* Icons */
+  .icon {
+    font-size: 1.8rem;
+  }
+
+  .icon-active {
+    color: var(--accent);
+ 
+  }
