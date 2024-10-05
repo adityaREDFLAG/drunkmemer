@@ -5,13 +5,13 @@
 :root {
   --background: #1a1a1a;   /* Darker background for better contrast */
   --foreground: #f0f0f0;   /* Softer white for text */
-  --primary-accent: #ffffff; /* White for buttons and active elements */
-  --hover-accent: #cccccc;  /* Light grey for hover effects */
+  --primary-accent: #ffffff;  /* White for active buttons */
+  --hover-accent: #888888;   /* Light grey for hover effects */
   --card-bg: #222222;       /* Slightly darker grey for card background */
   --card-text: #f0f0f0;     /* Light text for cards */
   --like-color: #f44336;    /* Red color for liked icon */
-  --button-bg: #ffffff;     /* White background for buttons */
-  --button-text: #1a1a1a;   /* Dark text for buttons */
+  --button-bg: #333333;     /* Dark background for buttons */
+  --button-text: #f0f0f0;   /* Light button text */
 }
 
 body {
@@ -55,11 +55,12 @@ button:hover {
 }
 
 .icon-like {
-  color: var(--foreground);
+  color: var(--foreground); /* Default icon color */
+  transition: color 0.3s ease;
 }
 
 .icon-like-active {
-  color: var(--like-color); /* Red for liked state */
+  color: var(--like-color); /* Red color when liked */
 }
 
 .icon-share {
@@ -67,7 +68,7 @@ button:hover {
 }
 
 .icon:hover {
-  color: var(--hover-accent);
+  color: var(--hover-accent); /* Hover effect */
 }
 
 /* Navigation Bar */
@@ -77,11 +78,12 @@ button:hover {
   left: 0;
   right: 0;
   height: 60px;
-  background-color: #1c1c1c;
+  background-color: #1a1a1a; /* Dark background for navbar */
   display: flex;
   justify-content: space-around;
   align-items: center;
   border-top: 1px solid #333;
+  z-index: 1000;
 }
 
 .nav-button {
@@ -95,12 +97,12 @@ button:hover {
 }
 
 .nav-button-active {
-  color: var(--primary-accent); /* White for active tab */
+  color: var(--primary-accent); /* White for active button */
 }
 
 /* Button Styles */
 .btn-primary {
-  background-color: var(--primary-accent); /* White buttons */
+  background-color: var(--primary-accent);
   color: var(--button-text);
   padding: 0.75rem 1.5rem;
   border-radius: 8px;
@@ -109,7 +111,7 @@ button:hover {
 }
 
 .btn-primary:hover {
-  background-color: var(--hover-accent); /* Light grey on hover */
+  background-color: var(--hover-accent);
   transform: scale(1.05);
 }
 
