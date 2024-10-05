@@ -2,6 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Define keyframe animation */
+@keyframes heat {
+  0%, 100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(1.1);
+    filter: brightness(1.2);
+  }
+}
+
 :root {
   --background: #1a1a1a;   /* Darker background for better contrast */
   --foreground: #f0f0f0;   /* Softer white for text */
@@ -33,6 +45,7 @@ button {
 button:hover {
   background-color: var(--hover-accent);
   transform: scale(1.05);
+  animation: heat 0.5s ease forwards; /* Add heat animation on hover */
 }
 
 .card {
@@ -113,6 +126,7 @@ button:hover {
 .btn-primary:hover {
   background-color: var(--hover-accent);
   transform: scale(1.05);
+  animation: heat 0.5s ease forwards; /* Add heat animation on hover */
 }
 
 .text-gray-400 {
