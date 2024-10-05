@@ -135,5 +135,17 @@ button:hover {
 
   .icon-active {
     color: var(--accent);
- 
   }
+
+  .icon-like {
+    color: #ff8500;
+  }
+
+  .icon-like-active {
+    color: red;
+  }
+
+  .icon-share {
+    color: #ffffff;
+  }
+}
