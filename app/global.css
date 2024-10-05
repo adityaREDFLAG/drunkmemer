@@ -3,116 +3,76 @@
 @tailwind utilities;
 
 :root {
-  --background: #1a1a1a;   /* Darker background for better contrast */
-  --foreground: #f0f0f0;   /* Softer white for text */
-  --primary-accent: #f57c00;  /* Softer vibrant orange */
-  --hover-accent: #ffa726;   /* Lighter orange for hover effects */
-  --card-bg: #222222;       /* Slightly darker grey for card background */
-  --card-text: #f0f0f0;     /* Light text for cards */
-  --like-color: #f44336;    /* Red color for liked icon */
-  --button-bg: #333333;     /* Dark background for buttons */
-  --button-text: #f0f0f0;   /* Light button text */
+  --background: #000000; /* Black background */
+  --foreground: #ffffff; /* White text */
+  --primary: #ffffff; /* White as primary action color (for icons, text) */
+  --secondary: #333333; /* Dark grey for cards */
+  --accent: #ffffff; /* White for icons */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #000000;
+    --foreground: #ffffff;
+  }
 }
 
 body {
   color: var(--foreground);
-  background: var(--background);
-  font-family: 'Roboto', sans-serif;
-  margin: 0;
+  background-color: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-button {
-  background-color: var(--button-bg);
-  color: var(--button-text);
-  border-radius: 8px;
-  padding: 0.5rem 1rem;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  font-weight: 600;
-}
-
-button:hover {
-  background-color: var(--hover-accent);
-  transform: scale(1.05);
+.header {
+  color: var(--primary);
+  text-align: center;
+  padding: 1rem;
+  font-size: 1.5rem;
 }
 
 .card {
-  background-color: var(--card-bg);
-  border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 2rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: var(--secondary);
+  border-radius: 8px;
+  margin: 1rem;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-.card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+.card-text {
+  color: var(--primary);
 }
 
 .icon {
-  font-size: 2rem;
-  transition: color 0.2s ease;
+  font-size: 1.5rem;
+  color: var(--accent);
 }
 
 .icon-like {
-  color: var(--foreground);
+  color: var(--accent);
 }
 
 .icon-like-active {
-  color: var(--like-color); /* Light red for liked state */
+  color: #ff0000; /* Red for liked hearts */
 }
 
 .icon-share {
-  color: var(--foreground);
+  color: var(--accent);
 }
 
-.icon:hover {
-  color: var(--hover-accent);
-}
-
-/* Navigation Bar */
 .nav-bar {
   position: fixed;
   bottom: 0;
-  left: 0;
-  right: 0;
-  height: 60px;
-  background-color: #1c1c1c;
+  width: 100%;
+  background-color: var(--secondary);
   display: flex;
   justify-content: space-around;
-  align-items: center;
-  border-top: 1px solid #333;
+  padding: 1rem 0;
 }
 
 .nav-button {
-  color: var(--foreground);
-  font-size: 1.6rem;
-  transition: color 0.2s ease;
-}
-
-.nav-button:hover {
-  color: var(--hover-accent);
+  font-size: 2rem;
+  color: var(--accent);
 }
 
 .nav-button-active {
-  color: var(--primary-accent); /* Primary orange for active tab */
-}
-
-/* Button Styles */
-.btn-primary {
-  background-color: var(--primary-accent);
-  color: var(--button-text);
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  font-weight: 600;
-}
-
-.btn-primary:hover {
-  background-color: var(--hover-accent);
-  transform: scale(1.05);
-}
-
-.text-gray-400 {
-  color: #888888;
+  color: #ff0000; /* Red for active button */
 }
