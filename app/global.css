@@ -6,6 +6,7 @@
   --background: #1a1a1a;   /* Darker background for better contrast */
   --foreground: #f0f0f0;   /* Softer white for text */
   --primary-accent: #ffffff;  /* White for active buttons */
+  --hover-accent: #888888;   /* Light grey for hover effects */
   --card-bg: #222222;       /* Slightly darker grey for card background */
   --card-text: #f0f0f0;     /* Light text for cards */
   --like-color: #f44336;    /* Red color for liked icon */
@@ -20,85 +21,67 @@ body {
   margin: 0;
 }
 
-button {
-  background-color: var(--button-bg);
-  color: var(--button-text);
-  border-radius: 8px;
-  padding: 0.5rem 1rem;
-  transition: transform 0.2s ease; /* Removed background-color transition */
-  font-weight: 600;
+.container {
+  padding: 2rem;
+}
+
+.meme-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
 }
 
 .card {
   background-color: var(--card-bg);
   border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 2rem;
+  overflow: hidden;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease;
 }
 
 .card:hover {
   transform: translateY(-10px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+}
+
+.meme-image {
+  width: 100%;
+  border-bottom: 1px solid var(--foreground);
+}
+
+.actions {
+  display: flex;
+  justify-content: space-around;
+  padding: 0.5rem;
 }
 
 .icon {
   font-size: 2rem;
-  transition: color 0.2s ease, transform 0.3s ease;
-}
-
-.icon-like {
-  color: var(--foreground); /* Default icon color */
+  color: var(--foreground); /* Default color */
   transition: transform 0.3s ease;
 }
 
-.icon-like-active {
-  color: var(--like-color); /* Red color when liked */
-  transform: scale(1.2); /* Scale up on like */
-}
-
-.icon-share {
-  color: var(--foreground);
-}
-
 .icon:hover {
-  /* Removed hover effect */
+  transform: scale(1.2); /* Animate scale on hover */
 }
 
-/* Navigation Bar */
+.icon-like-active {
+  color: var(--like-color); /* Red when liked */
+}
+
 .nav-bar {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
   height: 60px;
-  background-color: #1a1a1a; /* Dark background for navbar */
+  background-color: #1a1a1a;
   display: flex;
   justify-content: space-around;
   align-items: center;
   border-top: 1px solid #333;
-  z-index: 1000;
 }
 
 .nav-button {
   color: var(--foreground);
   font-size: 1.6rem;
-}
-
-.nav-button-active {
-  color: var(--primary-accent); /* White for active button */
-}
-
-/* Button Styles */
-.btn-primary {
-  background-color: var(--primary-accent);
-  color: var(--button-text);
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
-  font-weight: 600;
-}
-
-.text-gray-400 {
-  color: #888888;
 }
