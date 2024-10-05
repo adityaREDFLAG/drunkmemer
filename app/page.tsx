@@ -5,7 +5,7 @@ import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { BiShareAlt } from 'react-icons/bi'; // Share icon
 
 interface Meme {
-  url: string;
+  url: string; 
   title: string;
 }
 
@@ -14,7 +14,6 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [likedMemes, setLikedMemes] = useState<Meme[]>([]);
   const [activeTab, setActiveTab] = useState('home');
-  const [fetchedUrls, setFetchedUrls] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     const storedLikes = JSON.parse(localStorage.getItem('likedMemes') || '[]');
@@ -28,12 +27,8 @@ export default function Home() {
       const response = await fetch('https://meme-api.com/gimme/10');
       const data = await response.json();
       
-      const newMemes = data.memes.filter((meme: Meme) => !fetchedUrls.has(meme.url));
-
-      if (newMemes.length > 0) {
-        setMemes((prevMemes) => [...prevMemes, ...newMemes]);
-        setFetchedUrls((prevUrls) => new Set([...prevUrls, ...newMemes.map(meme => meme.url)]));
-      }
+      // Just append the new memes, removing the fetchedUrls logic
+      setMemes((prevMemes) => [...prevMemes, ...data.memes]);
     } catch (error) {
       console.error('Error fetching memes:', error);
     } finally {
