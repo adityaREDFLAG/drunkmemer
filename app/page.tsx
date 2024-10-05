@@ -3,15 +3,20 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FaHeart, FaShareAlt, FaHome, FaStar } from 'react-icons/fa';
 
+interface Meme {
+  url: string;
+  title: string; // Assuming the API has a title; if not, you can remove this.
+}
+
 export default function Home() {
-  const [memes, setMemes] = useState([]);
+  const [memes, setMemes] = useState<Meme[]>([]); // Specify Meme type
   const [likedMemes, setLikedMemes] = useState<string[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false); // Specify boolean type
 
   const fetchMemes = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('https://meme-api.com/gimme/1');
+      const response = await axios.get('https://meme-api.com/gimme/10'); // Fetch 10 memes
       setMemes((prevMemes) => [...prevMemes, ...response.data.memes]);
     } catch (error) {
       console.error('Error fetching memes:', error);
