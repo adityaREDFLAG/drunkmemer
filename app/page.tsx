@@ -36,7 +36,7 @@ export default function Home() {
   }, []);
 
   // Handle meme search
-  const handleSearch = (e) => {
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => { // Specify the type of e
     setSearchQuery(e.target.value);
     if (e.target.value === '') {
       setFilteredMemes(memes);
@@ -66,6 +66,12 @@ export default function Home() {
           placeholder="Search memes..."
           value={searchQuery}
           onChange={handleSearch}
+          style={{
+            padding: '10px',
+            borderRadius: '5px',
+            border: '1px solid #ccc',
+            width: '300px'
+          }}
         />
         <FaSearch style={{ marginLeft: '10px', fontSize: '1.5rem', color: '#f0f0f0' }} />
       </div>
