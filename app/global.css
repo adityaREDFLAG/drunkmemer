@@ -3,18 +3,12 @@
 @tailwind utilities;
 
 :root {
-  --background: #000000; /* Black */
-  --foreground: #ffffff; /* White */
-  --accent: #ff8500;     /* Orange */
-  --card-bg: #1a1a1a;    /* Darker card background */
-  --card-text: #f2f2f2;  /* Light text for cards */
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: #121212;  /* Dark soft black */
+  --foreground: #e0e0e0;  /* Softer white for text */
+  --accent: #f97316;      /* Modern vibrant orange */
+  --card-bg: #1c1c1c;     /* Dark grey for card backgrounds */
+  --card-text: #f2f2f2;   /* Light text for cards */
+  --hover-accent: #ff8c00; /* Hover effect - Lighter orange */
 }
 
 body {
@@ -26,81 +20,69 @@ body {
 
 a {
   color: var(--accent);
+  text-decoration: none;
 }
 
 button {
   background-color: var(--accent);
   color: var(--foreground);
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  transition: background-color 0.3s ease-in-out;
 }
 
 button:hover {
-  background-color: #ff9900; /* Lighter orange on hover */
+  background-color: var(--hover-accent);
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-
   .btn-primary {
     background-color: var(--accent);
     color: var(--foreground);
-    padding: 0.5rem 1.5rem;
+    padding: 0.75rem 1.5rem;
     border-radius: 8px;
-    transition: background-color 0.3s ease-in-out, transform 0.2s;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-weight: 600;
   }
 
   .btn-primary:hover {
-    background-color: #ff9900;
+    background-color: var(--hover-accent);
     transform: scale(1.05);
   }
 
   .btn-disabled {
-    background-color: #444444;
-    color: #888888;
+    background-color: #444;
+    color: #999;
     cursor: not-allowed;
   }
 
   .card {
     background-color: var(--card-bg);
     border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-    overflow: hidden;
+    padding: 16px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+    margin-bottom: 2rem;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
 
   .card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
   }
 
   .card-text {
     color: var(--card-text);
+    font-size: 1.1rem;
   }
 
   .header {
-    font-size: 3rem;
+    font-size: 2.5rem;
     font-weight: 800;
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     color: var(--accent);
   }
 
-  .text-gray-400 {
-    color: #999999;
-  }
-
-  .text-accent {
-    color: var(--accent);
-  }
-
-  .flex-center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  /* Nav bar */
   .nav-bar {
     position: fixed;
     bottom: 0;
@@ -115,30 +97,26 @@ button:hover {
   }
 
   .nav-button {
-    color: #ffffff;
-    font-size: 1.8rem;
+    color: var(--foreground);
+    font-size: 1.6rem;
     transition: color 0.2s ease;
+  }
+
+  .nav-button:hover {
+    color: var(--hover-accent);
   }
 
   .nav-button-active {
     color: var(--accent);
   }
 
-  .nav-button:hover {
-    color: var(--accent);
-  }
-
-  /* Icons */
   .icon {
-    font-size: 1.8rem;
-  }
-
-  .icon-active {
-    color: var(--accent);
+    font-size: 2rem;
+    transition: color 0.2s ease;
   }
 
   .icon-like {
-    color: #ff8500;
+    color: var(--foreground);
   }
 
   .icon-like-active {
@@ -146,6 +124,14 @@ button:hover {
   }
 
   .icon-share {
-    color: #ffffff;
+    color: var(--foreground);
+  }
+
+  .icon:hover {
+    color: var(--hover-accent);
+  }
+
+  .text-gray-400 {
+    color: #888888;
   }
 }
