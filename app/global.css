@@ -6,7 +6,6 @@
   --background: #1a1a1a;   /* Darker background for better contrast */
   --foreground: #f0f0f0;   /* Softer white for text */
   --primary-accent: #ffffff;  /* White for active buttons */
-  --hover-accent: #888888;   /* Light grey for hover effects */
   --card-bg: #222222;       /* Slightly darker grey for card background */
   --card-text: #f0f0f0;     /* Light text for cards */
   --like-color: #f44336;    /* Red color for liked icon */
@@ -26,13 +25,8 @@ button {
   color: var(--button-text);
   border-radius: 8px;
   padding: 0.5rem 1rem;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: transform 0.2s ease; /* Removed background-color transition */
   font-weight: 600;
-}
-
-button:hover {
-  background-color: var(--hover-accent);
-  transform: scale(1.05);
 }
 
 .card {
@@ -51,16 +45,17 @@ button:hover {
 
 .icon {
   font-size: 2rem;
-  transition: color 0.2s ease;
+  transition: color 0.2s ease, transform 0.3s ease;
 }
 
 .icon-like {
   color: var(--foreground); /* Default icon color */
-  transition: color 0.3s ease;
+  transition: transform 0.3s ease;
 }
 
 .icon-like-active {
   color: var(--like-color); /* Red color when liked */
+  transform: scale(1.2); /* Scale up on like */
 }
 
 .icon-share {
@@ -68,7 +63,7 @@ button:hover {
 }
 
 .icon:hover {
-  color: var(--hover-accent); /* Hover effect */
+  /* Removed hover effect */
 }
 
 /* Navigation Bar */
@@ -89,11 +84,6 @@ button:hover {
 .nav-button {
   color: var(--foreground);
   font-size: 1.6rem;
-  transition: color 0.2s ease;
-}
-
-.nav-button:hover {
-  color: var(--hover-accent);
 }
 
 .nav-button-active {
@@ -106,13 +96,7 @@ button:hover {
   color: var(--button-text);
   padding: 0.75rem 1.5rem;
   border-radius: 8px;
-  transition: background-color 0.3s ease, transform 0.2s ease;
   font-weight: 600;
-}
-
-.btn-primary:hover {
-  background-color: var(--hover-accent);
-  transform: scale(1.05);
 }
 
 .text-gray-400 {
