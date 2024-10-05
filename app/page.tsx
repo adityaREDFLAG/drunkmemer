@@ -1,29 +1,31 @@
-'use client';
-import { useState } from 'react';
-import axios from 'axios';
 
-// Define the type for a meme
+'use client'; // Make the component interactive
+
+import { useState, useEffect } from 'react';
+
 interface Meme {
   url: string;
   title: string;
 }
 
-interface HomeProps {
-  initialMemes: Meme[];
-}
-
-export default function Home({ initialMemes }: HomeProps) {
-  const [memes, setMemes] = useState<Meme[]>(initialMemes);
+export default function Home() {
+  const [memes, setMemes] = useState<Meme[]>([]);
   const [loading, setLoading] = useState(false);
-  const [likes, setLikes] = useState<number[]>(Array(initialMemes.length).fill(0)); // Track likes for each meme
+  const [likes, setLikes] = useState<number[]>([]);
 
-  // Fetch more memes
+  // Fetch memes on component mount
+  useEffect(() => {
+    fetchMemes();
+  }, []);
+
+  // Fetch memes from the API
   const fetchMemes = async () => {
     setLoading(true);
     try {
-      const response = await axios.get('https://meme-api.com/gimme/10');
-      setMemes((prevMemes) => [...prevMemes, ...response.data.memes]);
-      setLikes((prevLikes) => [...prevLikes, ...Array(response.data.memes.length).fill(0)]); // Initialize likes for new memes
+      const response = await fetch('https://meme-api.com/gimme/10');
+      const data = await response.json();
+      setMemes((prevMemes) => [...prevMemes, ...data.memes]);
+      setLikes((prevLikes) => [...prevLikes, ...Array(data.memes.length).fill(0)]); // Set initial likes
     } catch (error) {
       console.error('Error fetching memes:', error);
     } finally {
@@ -31,14 +33,14 @@ export default function Home({ initialMemes }: HomeProps) {
     }
   };
 
-  // Handle like
+  // Handle like button
   const handleLike = (index: number) => {
     const newLikes = [...likes];
     newLikes[index]++;
     setLikes(newLikes);
   };
 
-  // Handle share using the Web Share API
+  // Handle share button
   const handleShare = async (meme: Meme) => {
     if (navigator.share) {
       try {
@@ -83,6 +85,7 @@ export default function Home({ initialMemes }: HomeProps) {
         ))}
       </div>
 
+      {/* Load More Button */}
       <button
         onClick={fetchMemes}
         className="mt-8 bg-yellow-500 text-gray-900 py-2 px-6 rounded-lg hover:bg-yellow-600 transition"
@@ -92,23 +95,4 @@ export default function Home({ initialMemes }: HomeProps) {
       </button>
     </div>
   );
-}
-
-// Server-side rendering to fetch initial memes
-export async function getServerSideProps() {
-  try {
-    const response = await axios.get('https://meme-api.com/gimme/10');
-    return {
-      props: {
-        initialMemes: response.data.memes,
-      },
-    };
-  } catch (error) {
-    console.error('Error fetching memes:', error);
-    return {
-      props: {
-        initialMemes: [],
-      },
-    };
-  }
 }
