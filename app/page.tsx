@@ -1,7 +1,8 @@
 'use client'; // Client component for interactivity
 
 import { useState, useEffect } from 'react';
-import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'; // Heart icons for like/unlike
+import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
+import { BiShareAlt } from 'react-icons/bi'; // Share icon
 
 interface Meme {
   url: string;
@@ -12,7 +13,7 @@ export default function Home() {
   const [memes, setMemes] = useState<Meme[]>([]);
   const [loading, setLoading] = useState(false);
   const [likedMemes, setLikedMemes] = useState<Meme[]>([]);
-  const [activeTab, setActiveTab] = useState('home'); // Toggle between Home and Favorites
+  const [activeTab, setActiveTab] = useState('home');
 
   // Load liked memes from localStorage on component mount
   useEffect(() => {
@@ -35,7 +36,7 @@ export default function Home() {
     }
   };
 
-  // Handle like/unlike meme
+  // Handle like/unlike meme with animation
   const handleLike = (meme: Meme) => {
     const isLiked = likedMemes.some((likedMeme) => likedMeme.url === meme.url);
     let updatedLikedMemes;
@@ -47,7 +48,23 @@ export default function Home() {
     }
 
     setLikedMemes(updatedLikedMemes);
-    localStorage.setItem('likedMemes', JSON.stringify(updatedLikedMemes)); // Save to localStorage
+    localStorage.setItem('likedMemes', JSON.stringify(updatedLikedMemes));
+  };
+
+  // Share meme using Web Share API
+  const handleShare = async (meme: Meme) => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: meme.title,
+          url: meme.url,
+        });
+      } catch (error) {
+        console.error('Error sharing meme:', error);
+      }
+    } else {
+      alert('Sharing is not supported on this device.');
+    }
   };
 
   // Handle switching between tabs (Home/Favorites)
@@ -78,31 +95,41 @@ export default function Home() {
       {/* Single Meme View */}
       <div className="flex flex-col items-center">
         {(activeTab === 'home' ? memes : likedMemes).map((meme, index) => (
-          <div key={index} className="w-full sm:w-3/4 md:w-2/4 lg:w-1/3 mb-10">
+          <div key={index} className="w-full sm:w-3/4 md:w-2/4 lg:w-1/3 mb-10 animate-slide-in">
             <div className="bg-gray-800 rounded-lg shadow-lg overflow-hidden">
               <img
                 src={meme.url}
                 alt={meme.title}
-                className="w-full h-auto object-contain" // No cropping, maintains aspect ratio
+                className="w-full h-auto object-contain transition-transform duration-500 ease-in-out hover:scale-105"
               />
               <div className="p-4 flex justify-between items-center">
                 <p className="text-lg font-semibold truncate text-gray-200">{meme.title}</p>
 
-                {/* Like/Unlike button */}
-                <button
-                  className={`${
-                    likedMemes.some((likedMeme) => likedMeme.url === meme.url)
-                      ? 'text-red-500'
-                      : 'text-gray-400'
-                  } text-2xl`}
-                  onClick={() => handleLike(meme)}
-                >
-                  {likedMemes.some((likedMeme) => likedMeme.url === meme.url) ? (
-                    <AiFillHeart />
-                  ) : (
-                    <AiOutlineHeart />
-                  )}
-                </button>
+                {/* Like/Unlike button with animation */}
+                <div className="flex space-x-4 items-center">
+                  <button
+                    className={`text-2xl transition-transform duration-300 ${
+                      likedMemes.some((likedMeme) => likedMeme.url === meme.url)
+                        ? 'text-red-500 scale-125'
+                        : 'text-gray-400'
+                    }`}
+                    onClick={() => handleLike(meme)}
+                  >
+                    {likedMemes.some((likedMeme) => likedMeme.url === meme.url) ? (
+                      <AiFillHeart />
+                    ) : (
+                      <AiOutlineHeart />
+                    )}
+                  </button>
+
+                  {/* Share button */}
+                  <button
+                    className="text-2xl text-gray-400 hover:text-yellow-400 transition-colors"
+                    onClick={() => handleShare(meme)}
+                  >
+                    <BiShareAlt />
+                  </button>
+                </div>
               </div>
             </div>
           </div>
