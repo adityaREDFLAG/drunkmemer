@@ -1,87 +1,49 @@
 'use client';
-
 import { useState, useEffect } from 'react';
-import { FaHeart, FaShareAlt, FaSun, FaMoon } from 'react-icons/fa';
+import axios from 'axios';
 
-// Define the type for a meme
-type Meme = {
-  title: string;
-  url: string;
-};
+export default function Home() {
+  const [memes, setMemes] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-const MemeDrunk = () => {
-  const [memes, setMemes] = useState<Meme[]>([]);
-  const [likedMemes, setLikedMemes] = useState<Meme[]>([]);
-  const [isDarkMode, setIsDarkMode] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  // Fetch memes from the Meme API
+  const fetchMemes = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get('https://meme-api.com/gimme/10');
+      setMemes((prevMemes) => [...prevMemes, ...response.data.memes]);
+    } catch (error) {
+      console.error('Error fetching memes:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  // Initial fetch on component mount
   useEffect(() => {
     fetchMemes();
   }, []);
 
-  const fetchMemes = async () => {
-    try {
-      setError(null); // Reset error state before fetching
-      const response = await fetch(`https://meme-api.com/gimme/10`);
-      const data = await response.json();
-
-      // Check if data contains memes array
-      if (data.memes && Array.isArray(data.memes)) {
-        setMemes(data.memes);
-      } else {
-        throw new Error('Invalid data structure');
-      }
-    } catch (error) {
-      console.error('Error fetching memes:', error);
-      setError('Failed to load memes. Please try again later.');
-    }
-  };
-
-  const likeMeme = (meme: Meme) => {
-    if (!likedMemes.some((liked) => liked.url === meme.url)) {
-      setLikedMemes([...likedMemes, meme]);
-    }
-  };
-
-  const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode);
-    document.body.setAttribute('data-theme', isDarkMode ? 'light' : 'dark');
-  };
-
   return (
-    <div className="container">
-      <header className="header">
-        <h1>Meme Drunk</h1>
-        <button onClick={toggleTheme} className="theme-toggle">
-          {isDarkMode ? <FaSun /> : <FaMoon />}
-        </button>
-      </header>
+    <div className="p-6">
+      <h1 className="text-center text-3xl font-bold text-balance mb-6">Drunk Memer</h1>
 
-      {error ? (
-        <div className="error-message">{error}</div>
-      ) : (
-        <div className="meme-grid">
-          {memes.map((meme, index) => (
-            <div key={index} className="meme-card">
-              <img src={meme.url} alt={meme.title} className="meme-image" />
-              <div className="meme-actions">
-                <button onClick={() => likeMeme(meme)} className="like-btn">
-                  <FaHeart /> Like
-                </button>
-                <button className="share-btn">
-                  <FaShareAlt /> Share
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        {memes.map((meme, index) => (
+          <div key={index} className="bg-gray-800 rounded-lg p-4 shadow-md">
+            <img src={meme.url} alt={meme.title} className="rounded-lg mb-4" />
+            <p className="text-white">{meme.title}</p>
+          </div>
+        ))}
+      </div>
 
-      <footer>
-        <button onClick={fetchMemes} className="load-more">Load More Memes</button>
-      </footer>
+      <button
+        onClick={fetchMemes}
+        className="mt-8 bg-yellow-500 text-gray-900 py-2 px-6 rounded-lg hover:bg-yellow-600 transition"
+        disabled={loading}
+      >
+        {loading ? 'Loading...' : 'Load More Memes'}
+      </button>
     </div>
   );
-};
-
-export default MemeDrunk;
+}
