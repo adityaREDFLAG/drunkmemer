@@ -2,8 +2,15 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
+// Define the type for a meme
+interface Meme {
+  url: string;
+  title: string;
+}
+
 export default function Home() {
-  const [memes, setMemes] = useState([]);
+  // Set memes state to be an array of Meme objects
+  const [memes, setMemes] = useState<Meme[]>([]);
   const [loading, setLoading] = useState(false);
 
   // Fetch memes from the Meme API
