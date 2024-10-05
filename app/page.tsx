@@ -1,3 +1,4 @@
+'use client';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FaHeart, FaShareAlt, FaHome, FaStar, FaSearch } from 'react-icons/fa';
