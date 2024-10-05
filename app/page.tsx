@@ -1,29 +1,18 @@
 'use client';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { FaHeart, FaShareAlt, FaHome, FaStar, FaSearch } from 'react-icons/fa';
-import './global.css'; // Import the CSS file
-
-// Define the type for a meme
-interface Meme {
-  title: string;
-  url: string;
-}
+import { FaHeart, FaShareAlt, FaHome, FaStar } from 'react-icons/fa';
 
 export default function Home() {
-  const [memes, setMemes] = useState<Meme[]>([]); // Define the type of memes
+  const [memes, setMemes] = useState([]);
   const [likedMemes, setLikedMemes] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [filteredMemes, setFilteredMemes] = useState<Meme[]>([]); // Define the type of filteredMemes
 
-  // Fetch memes from the API
   const fetchMemes = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('https://meme-api.com/gimme/10');
+      const response = await axios.get('https://meme-api.com/gimme/1');
       setMemes((prevMemes) => [...prevMemes, ...response.data.memes]);
-      setFilteredMemes((prevMemes) => [...prevMemes, ...response.data.memes]);
     } catch (error) {
       console.error('Error fetching memes:', error);
     } finally {
@@ -35,99 +24,45 @@ export default function Home() {
     fetchMemes();
   }, []);
 
-  // Handle meme search
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => { // Specify the type of e
-    setSearchQuery(e.target.value);
-    if (e.target.value === '') {
-      setFilteredMemes(memes);
+  const toggleLike = (url: string) => {
+    if (likedMemes.includes(url)) {
+      setLikedMemes(likedMemes.filter((likedUrl) => likedUrl !== url));
     } else {
-      const filtered = memes.filter((meme) =>
-        meme.title.toLowerCase().includes(e.target.value.toLowerCase())
-      );
-      setFilteredMemes(filtered);
-    }
-  };
-
-  // Toggle like for memes
-  const toggleLike = (memeUrl: string) => {
-    if (likedMemes.includes(memeUrl)) {
-      setLikedMemes(likedMemes.filter((url) => url !== memeUrl));
-    } else {
-      setLikedMemes([...likedMemes, memeUrl]);
+      setLikedMemes([...likedMemes, url]);
     }
   };
 
   return (
-    <div>
-      {/* Search Bar */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px' }}>
-        <input
-          type="text"
-          placeholder="Search memes..."
-          value={searchQuery}
-          onChange={handleSearch}
-          style={{
-            padding: '10px',
-            borderRadius: '5px',
-            border: '1px solid #ccc',
-            width: '300px'
-          }}
-        />
-        <FaSearch style={{ marginLeft: '10px', fontSize: '1.5rem', color: '#f0f0f0' }} />
-      </div>
-
-      {/* Meme Cards */}
-      <div>
-        {filteredMemes.map((meme) => (
-          <div key={meme.url} className="card">
-            <p>{meme.title}</p>
-            <img
-              src={meme.url}
-              alt={meme.title}
-              style={{ width: '100%', height: 'auto', borderRadius: '12px', marginBottom: '10px' }}
-            />
-            {/* Like and Share Buttons */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+    <div className="container">
+      <h1 className="text-center text-3xl font-bold mb-6">Drunk Memer</h1>
+      <div className="meme-container">
+        {memes.map((meme, index) => (
+          <div key={index} className="card">
+            <img src={meme.url} alt="Meme" className="meme-image" />
+            <div className="actions">
               <button
+                className={`icon ${likedMemes.includes(meme.url) ? 'icon-like-active' : 'icon-like'}`}
                 onClick={() => toggleLike(meme.url)}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
-                  color: likedMemes.includes(meme.url) ? '#f44336' : '#f0f0f0',
-                  fontSize: '1.5rem',
-                }}
               >
                 <FaHeart />
               </button>
-              <button
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
-                  color: '#f0f0f0',
-                  fontSize: '1.5rem',
-                }}
-                onClick={() => {
-                  navigator.clipboard.writeText(meme.url);
-                  alert('Meme link copied!');
-                }}
-              >
+              <button className="icon icon-share">
                 <FaShareAlt />
               </button>
             </div>
           </div>
         ))}
+        {loading && <p>Loading...</p>}
       </div>
-
-      {/* Loading State */}
-      {loading && <p className="loading">Loading more memes...</p>}
 
       {/* Navigation Bar */}
       <div className="nav-bar">
-        <FaHome className="nav-button" />
-        <FaStar className="nav-button" />
-        <FaHeart className="nav-button" />
+        <button className="nav-button">
+          <FaHome />
+        </button>
+        <button className="nav-button">
+          <FaStar />
+        </button>
       </div>
     </div>
   );
