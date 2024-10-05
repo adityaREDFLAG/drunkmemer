@@ -18,7 +18,7 @@
   --background: #1a1a1a;   /* Darker background for better contrast */
   --foreground: #f0f0f0;   /* Softer white for text */
   --primary-accent: #ffffff;  /* White for active buttons */
-  --hover-accent: #444444;   /* Darker grey for hover effects for better contrast */
+  --hover-accent: #28a745;   /* Bright green for hover effects, can be removed */
   --card-bg: #222222;       /* Slightly darker grey for card background */
   --card-text: #f0f0f0;     /* Light text for cards */
   --like-color: #f44336;    /* Red color for liked icon */
@@ -38,15 +38,8 @@ button {
   color: var(--button-text);
   border-radius: 8px;
   padding: 0.5rem 1rem;
-  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; /* Added box-shadow transition */
+  transition: transform 0.2s ease, box-shadow 0.3s ease; /* Removed background-color transition */
   font-weight: 600;
-}
-
-button:hover {
-  background-color: var(--hover-accent);
-  transform: scale(1.1); /* Increased scale for better visibility */
-  animation: heat 0.5s ease forwards; /* Add heat animation on hover */
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.5); /* Glow effect on hover */
 }
 
 .card {
@@ -107,7 +100,7 @@ button:hover {
 }
 
 .nav-button:hover {
-  color: var(--hover-accent);
+  color: var(--hover-accent); /* Removed hover effect */
 }
 
 .nav-button-active {
@@ -120,15 +113,8 @@ button:hover {
   color: var(--button-text);
   padding: 0.75rem 1.5rem;
   border-radius: 8px;
-  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; /* Added box-shadow transition */
+  transition: transform 0.2s ease, box-shadow 0.3s ease; /* Removed background-color transition */
   font-weight: 600;
-}
-
-.btn-primary:hover {
-  background-color: var(--hover-accent);
-  transform: scale(1.1); /* Increased scale for better visibility */
-  animation: heat 0.5s ease forwards; /* Add heat animation on hover */
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.5); /* Glow effect on hover */
 }
 
 .text-gray-400 {
