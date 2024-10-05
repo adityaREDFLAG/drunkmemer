@@ -1,13 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
-  --background: #1a1a1a;
-  --foreground: #f0f0f0;
-  --primary-accent: #f57c00;
-  --hover-accent: #ffa726;
-  --card-bg: #222;
-  --card-text: #f0f0f0;
-  --like-color: #f44336;
-  --button-bg: #333;
-  --button-text: #f0f0f0;
+  --background: #1a1a1a;   /* Darker background for better contrast */
+  --foreground: #f0f0f0;   /* Softer white for text */
+  --primary-accent: #ffffff;  /* White for active buttons */
+  --hover-accent: #888888;   /* Light grey for hover effects */
+  --card-bg: #222222;       /* Slightly darker grey for card background */
+  --card-text: #f0f0f0;     /* Light text for cards */
+  --like-color: #f44336;    /* Red color for liked icon */
+  --button-bg: #333333;     /* Dark background for buttons */
+  --button-text: #f0f0f0;   /* Light button text */
 }
 
 body {
@@ -17,24 +21,25 @@ body {
   margin: 0;
 }
 
-input {
-  padding: 10px;
-  width: 300px;
-  border-radius: 8px;
+button {
   background-color: var(--button-bg);
   color: var(--button-text);
-  border: 1px solid var(--foreground);
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-weight: 600;
 }
 
-input:focus {
-  outline: none;
+button:hover {
+  background-color: var(--hover-accent);
+  transform: scale(1.05);
 }
 
 .card {
   background-color: var(--card-bg);
   border-radius: 12px;
-  padding: 20px;
-  margin-bottom: 20px;
+  padding: 16px;
+  margin-bottom: 2rem;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -50,28 +55,35 @@ input:focus {
 }
 
 .icon-like {
-  color: var(--foreground);
+  color: var(--foreground); /* Default icon color */
+  transition: color 0.3s ease;
 }
 
 .icon-like-active {
-  color: var(--like-color);
+  color: var(--like-color); /* Red color when liked */
+}
+
+.icon-share {
+  color: var(--foreground);
 }
 
 .icon:hover {
-  color: var(--hover-accent);
+  color: var(--hover-accent); /* Hover effect */
 }
 
+/* Navigation Bar */
 .nav-bar {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
   height: 60px;
-  background-color: #1c1c1c;
+  background-color: #1a1a1a; /* Dark background for navbar */
   display: flex;
   justify-content: space-around;
   align-items: center;
   border-top: 1px solid #333;
+  z-index: 1000;
 }
 
 .nav-button {
@@ -85,9 +97,24 @@ input:focus {
 }
 
 .nav-button-active {
-  color: var(--primary-accent);
+  color: var(--primary-accent); /* White for active button */
 }
 
-.loading {
-  text-align: center;
+/* Button Styles */
+.btn-primary {
+  background-color: var(--primary-accent);
+  color: var(--button-text);
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-weight: 600;
+}
+
+.btn-primary:hover {
+  background-color: var(--hover-accent);
+  transform: scale(1.05);
+}
+
+.text-gray-400 {
+  color: #888888;
 }
