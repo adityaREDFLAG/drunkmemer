@@ -51,7 +51,6 @@ export default function Home() {
     try {
       const response = await fetch('https://meme-api.com/gimme/10');
       const data = await response.json();
-      
       setMemes((prevMemes) => [...prevMemes, ...data.memes]);
     } catch (error) {
       console.error('Error fetching memes:', error);
