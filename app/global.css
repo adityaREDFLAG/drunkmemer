@@ -3,14 +3,23 @@
 @tailwind utilities;
 
 :root {
-  --background: #171717;
+  --background: #0a0a0a;
   --foreground: #f5f5f5;
+  --primary: #fbbf24;
+  --secondary: #444;
+  --accent: #ffffff;
 }
 
 body {
   background-color: var(--background);
   color: var(--foreground);
   font-family: 'Arial', sans-serif;
+  line-height: 1.6;
+}
+
+h1 {
+  font-family: 'Arial Black', sans-serif;
+  color: var(--accent);
 }
 
 button {
@@ -28,15 +37,14 @@ img {
   transition: transform 0.3s ease;
 }
 
-h1 {
-  font-family: 'Arial Black', sans-serif;
-}
-
 .tab-active {
-  color: #fbbf24; /* Yellow color */
+  color: var(--primary);
 }
 
 .tab-inactive {
-  color: #9ca3af; /* Gray color */
+  color: var(--secondary);
 }
 
+.bg-card {
+  background-color: var(--secondary);
+}
