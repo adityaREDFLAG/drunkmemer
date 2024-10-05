@@ -118,3 +118,36 @@ button:hover {
 .text-gray-400 {
   color: #888888;
 }
+/* Search Bar */
+.search-bar {
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.search-input {
+  width: 80%;
+  padding: 0.5rem;
+  border-radius: 8px;
+  background-color: var(--button-bg);
+  color: var(--foreground);
+  border: 1px solid var(--hover-accent);
+}
+
+.icon-search {
+  color: var(--foreground);
+  font-size: 1.5rem;
+}
+
+.icon-search:hover {
+  color: var(--hover-accent);
+}
+
+/* Meme Title */
+.meme-title {
+  margin-top: 8px;
+  font-size: 1.2rem;
+  text-align: center;
+  color: var(--card-text);
+}
+
