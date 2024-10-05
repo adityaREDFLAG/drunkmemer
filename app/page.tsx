@@ -1,7 +1,7 @@
 'use client'; // Client component for interactivity
 
 import { useState, useEffect } from 'react';
-import { AiFillStar, AiOutlineStar } from 'react-icons/ai'; // Import React Icons for stars
+import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'; // Heart icons for like/unlike
 
 interface Meme {
   url: string;
@@ -56,8 +56,8 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-gray-100 p-6">
-      <h1 className="text-center text-4xl font-extrabold text-white mb-8">Drunk Memer</h1>
+    <div className="min-h-screen bg-gray-900 text-gray-100">
+      <h1 className="text-center text-4xl font-extrabold text-white mb-8 py-4">Drunk Memer</h1>
 
       {/* Tab Navigation */}
       <div className="flex justify-center space-x-6 mb-6">
@@ -71,37 +71,37 @@ export default function Home() {
           className={`text-xl font-bold py-2 px-4 ${activeTab === 'favorites' ? 'text-yellow-500' : 'text-gray-400'}`}
           onClick={() => switchTab('favorites')}
         >
-          Favorites ⭐
+          Favorites ❤️
         </button>
       </div>
 
-      {/* Meme Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      {/* Single Meme View */}
+      <div className="flex flex-col items-center">
         {(activeTab === 'home' ? memes : likedMemes).map((meme, index) => (
-          <div
-            key={index}
-            className="bg-gray-800 rounded-lg overflow-hidden shadow-lg transform hover:scale-105 transition-transform duration-300"
-          >
-            <img
-              src={meme.url}
-              alt={meme.title}
-              className="w-full h-60 object-cover"
-            />
-            <div className="p-4">
-              <p className="text-lg font-semibold mb-4 truncate text-gray-200">{meme.title}</p>
+          <div key={index} className="w-full sm:w-3/4 md:w-2/4 lg:w-1/3 mb-10">
+            <div className="bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+              <img
+                src={meme.url}
+                alt={meme.title}
+                className="w-full h-auto object-contain" // No cropping, maintains aspect ratio
+              />
+              <div className="p-4 flex justify-between items-center">
+                <p className="text-lg font-semibold truncate text-gray-200">{meme.title}</p>
 
-              {/* Like/Unlike button */}
-              <div className="flex justify-center">
+                {/* Like/Unlike button */}
                 <button
                   className={`${
                     likedMemes.some((likedMeme) => likedMeme.url === meme.url)
-                      ? 'text-yellow-400'
+                      ? 'text-red-500'
                       : 'text-gray-400'
-                  } font-bold text-2xl`}
+                  } text-2xl`}
                   onClick={() => handleLike(meme)}
                 >
-                  {/* Toggle between filled and outlined star based on like status */}
-                  {likedMemes.some((likedMeme) => likedMeme.url === meme.url) ? <AiFillStar /> : <AiOutlineStar />}
+                  {likedMemes.some((likedMeme) => likedMeme.url === meme.url) ? (
+                    <AiFillHeart />
+                  ) : (
+                    <AiOutlineHeart />
+                  )}
                 </button>
               </div>
             </div>
