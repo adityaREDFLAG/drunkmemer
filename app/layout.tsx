@@ -38,7 +38,7 @@ export default function RootLayout({
       <head>
         {/* Metadata integration */}
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="icon" href="./IMG_2745.ico" />
+        <link rel="icon" href="./favicon.ico" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground min-h-screen flex flex-col`}
