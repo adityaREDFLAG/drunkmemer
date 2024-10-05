@@ -2,13 +2,20 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FaHeart, FaShareAlt, FaHome, FaStar, FaSearch } from 'react-icons/fa';
+import './global.css'; // Import the CSS file
+
+// Define the type for a meme
+interface Meme {
+  title: string;
+  url: string;
+}
 
 export default function Home() {
-  const [memes, setMemes] = useState([]);
+  const [memes, setMemes] = useState<Meme[]>([]); // Define the type of memes
   const [likedMemes, setLikedMemes] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [filteredMemes, setFilteredMemes] = useState([]);
+  const [filteredMemes, setFilteredMemes] = useState<Meme[]>([]); // Define the type of filteredMemes
 
   // Fetch memes from the API
   const fetchMemes = async () => {
@@ -51,7 +58,7 @@ export default function Home() {
   };
 
   return (
-    <div style={{ color: '#f0f0f0', backgroundColor: '#1a1a1a', minHeight: '100vh', padding: '20px' }}>
+    <div>
       {/* Search Bar */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px' }}>
         <input
@@ -59,14 +66,6 @@ export default function Home() {
           placeholder="Search memes..."
           value={searchQuery}
           onChange={handleSearch}
-          style={{
-            padding: '10px',
-            width: '300px',
-            borderRadius: '8px',
-            backgroundColor: '#333',
-            color: '#f0f0f0',
-            border: '1px solid #f0f0f0',
-          }}
         />
         <FaSearch style={{ marginLeft: '10px', fontSize: '1.5rem', color: '#f0f0f0' }} />
       </div>
@@ -74,19 +73,8 @@ export default function Home() {
       {/* Meme Cards */}
       <div>
         {filteredMemes.map((meme) => (
-          <div
-            key={meme.url}
-            className="card"
-            style={{
-              backgroundColor: '#222',
-              borderRadius: '12px',
-              padding: '20px',
-              marginBottom: '20px',
-              boxShadow: '0 4px 15px rgba(0, 0, 0, 0.25)',
-              transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-            }}
-          >
-            <p style={{ color: '#f0f0f0', marginBottom: '10px' }}>{meme.title}</p>
+          <div key={meme.url} className="card">
+            <p>{meme.title}</p>
             <img
               src={meme.url}
               alt={meme.title}
@@ -127,27 +115,13 @@ export default function Home() {
       </div>
 
       {/* Loading State */}
-      {loading && <p style={{ textAlign: 'center' }}>Loading more memes...</p>}
+      {loading && <p className="loading">Loading more memes...</p>}
 
       {/* Navigation Bar */}
-      <div
-        className="nav-bar"
-        style={{
-          position: 'fixed',
-          bottom: '0',
-          left: '0',
-          right: '0',
-          height: '60px',
-          backgroundColor: '#1c1c1c',
-          display: 'flex',
-          justifyContent: 'space-around',
-          alignItems: 'center',
-          borderTop: '1px solid #333',
-        }}
-      >
-        <FaHome style={{ color: '#f0f0f0', fontSize: '1.6rem' }} />
-        <FaStar style={{ color: '#f0f0f0', fontSize: '1.6rem' }} />
-        <FaHeart style={{ color: '#f0f0f0', fontSize: '1.6rem' }} />
+      <div className="nav-bar">
+        <FaHome className="nav-button" />
+        <FaStar className="nav-button" />
+        <FaHeart className="nav-button" />
       </div>
     </div>
   );
