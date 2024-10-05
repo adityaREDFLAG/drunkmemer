@@ -1,17 +1,13 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 :root {
-  --background: #1a1a1a;   /* Darker background for better contrast */
-  --foreground: #f0f0f0;   /* Softer white for text */
-  --primary-accent: #ffffff;  /* White for active buttons */
-  --hover-accent: #888888;   /* Light grey for hover effects */
-  --card-bg: #222222;       /* Slightly darker grey for card background */
-  --card-text: #f0f0f0;     /* Light text for cards */
-  --like-color: #f44336;    /* Red color for liked icon */
-  --button-bg: #333333;     /* Dark background for buttons */
-  --button-text: #f0f0f0;   /* Light button text */
+  --background: #1a1a1a;
+  --foreground: #f0f0f0;
+  --primary-accent: #f57c00;
+  --hover-accent: #ffa726;
+  --card-bg: #222;
+  --card-text: #f0f0f0;
+  --like-color: #f44336;
+  --button-bg: #333;
+  --button-text: #f0f0f0;
 }
 
 body {
@@ -21,25 +17,24 @@ body {
   margin: 0;
 }
 
-button {
+input {
+  padding: 10px;
+  width: 300px;
+  border-radius: 8px;
   background-color: var(--button-bg);
   color: var(--button-text);
-  border-radius: 8px;
-  padding: 0.5rem 1rem;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  font-weight: 600;
+  border: 1px solid var(--foreground);
 }
 
-button:hover {
-  background-color: var(--hover-accent);
-  transform: scale(1.05);
+input:focus {
+  outline: none;
 }
 
 .card {
   background-color: var(--card-bg);
   border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 2rem;
+  padding: 20px;
+  margin-bottom: 20px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -55,35 +50,28 @@ button:hover {
 }
 
 .icon-like {
-  color: var(--foreground); /* Default icon color */
-  transition: color 0.3s ease;
-}
-
-.icon-like-active {
-  color: var(--like-color); /* Red color when liked */
-}
-
-.icon-share {
   color: var(--foreground);
 }
 
-.icon:hover {
-  color: var(--hover-accent); /* Hover effect */
+.icon-like-active {
+  color: var(--like-color);
 }
 
-/* Navigation Bar */
+.icon:hover {
+  color: var(--hover-accent);
+}
+
 .nav-bar {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
   height: 60px;
-  background-color: #1a1a1a; /* Dark background for navbar */
+  background-color: #1c1c1c;
   display: flex;
   justify-content: space-around;
   align-items: center;
   border-top: 1px solid #333;
-  z-index: 1000;
 }
 
 .nav-button {
@@ -97,57 +85,9 @@ button:hover {
 }
 
 .nav-button-active {
-  color: var(--primary-accent); /* White for active button */
+  color: var(--primary-accent);
 }
 
-/* Button Styles */
-.btn-primary {
-  background-color: var(--primary-accent);
-  color: var(--button-text);
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  font-weight: 600;
-}
-
-.btn-primary:hover {
-  background-color: var(--hover-accent);
-  transform: scale(1.05);
-}
-
-.text-gray-400 {
-  color: #888888;
-}
-/* Search Bar */
-.search-bar {
-  margin-bottom: 1rem;
-  display: flex;
-  justify-content: center;
-}
-
-.search-input {
-  width: 80%;
-  padding: 0.5rem;
-  border-radius: 8px;
-  background-color: var(--button-bg);
-  color: var(--foreground);
-  border: 1px solid var(--hover-accent);
-}
-
-.icon-search {
-  color: var(--foreground);
-  font-size: 1.5rem;
-}
-
-.icon-search:hover {
-  color: var(--hover-accent);
-}
-
-/* Meme Title */
-.meme-title {
-  margin-top: 8px;
-  font-size: 1.2rem;
+.loading {
   text-align: center;
-  color: var(--card-text);
 }
-
