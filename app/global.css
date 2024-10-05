@@ -15,7 +15,7 @@ body {
 
 button {
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.2s ease;
+  transition: color 0.3s ease, transform 0.2s ease;
 }
 
 button:disabled {
@@ -23,11 +23,20 @@ button:disabled {
   opacity: 0.5;
 }
 
+img {
+  border-radius: 0.5rem;
+  transition: transform 0.3s ease;
+}
+
 h1 {
   font-family: 'Arial Black', sans-serif;
 }
 
-img {
-  border-radius: 0.5rem;
-  transition: transform 0.2s ease;
+.tab-active {
+  color: #fbbf24; /* Yellow color */
 }
+
+.tab-inactive {
+  color: #9ca3af; /* Gray color */
+}
+
