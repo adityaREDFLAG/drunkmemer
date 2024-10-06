@@ -1,10 +1,7 @@
-name: Deploy Next.js App
+name: Deploy Next.js App to GitHub Pages
 
 on:
   push:
-    branches:
-      - main
-  pull_request:
     branches:
       - main
 
@@ -24,11 +21,15 @@ jobs:
     - name: Install Dependencies
       run: |
         npm install @chakra-ui/react @emotion/react @emotion/styled framer-motion react-icons @chakra-ui/icons axios
+        npm install
 
-    - name: Build Project
-      run: npm run build
-
-    - name: Deploy to Vercel
-      run: vercel --prod
-      env:
-        VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+    - name: Build and Export
+      run: |
+        npm run build
+        npm run export
+    
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./out # This is where Next.js exports the static site
