@@ -28,9 +28,6 @@ jobs:
     - name: Build
       run: npm run build  # Build the project
 
-    - name: Cleanup previous build
-      run: git clean -fdx  # Clean up any previous build artifacts
-
     - name: Export
       run: npm run export  # Export the project for static hosting
 
