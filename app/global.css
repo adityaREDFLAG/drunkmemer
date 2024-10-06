@@ -169,4 +169,17 @@ button:active {
   text-shadow: 0px 0px 5px rgba(255, 255, 255, 0.8); /* Soft glow effect */
   letter-spacing: 2px; /* Add letter spacing */
   animation: glow 1.5s infinite alternate; /* Subtle glowing effect */
+  overflow: hidden; /* Prevent overflow */
+  white-space: nowrap; /* Prevent line breaks */
+  text-overflow: ellipsis; /* Add ellipsis for overflowed text */
+}
+
+/* Styling the title of each meme card */
+.card-text {
+  font-size: 1.5rem; /* Adjust font size */
+  color: var(--card-text); /* Text color */
+  margin-bottom: 0.5rem; /* Space between title and author */
+  overflow: hidden; /* Prevent overflow */
+  white-space: nowrap; /* Prevent line breaks */
+  text-overflow: ellipsis; /* Add ellipsis for overflowed text */
 }
