@@ -1,6 +1,6 @@
 # Drunk Memer
 
-![Drunk Memer Logo](./favicon.ico) <!-- Replace with the path to your logo -->
+![Drunk Memer Logo](./app/favicon.ico) <!-- Replace with the path to your logo -->
 
 Drunk Memer is a fun web application that allows users to browse, like, and share memes from various subreddits. With a sleek design and smooth animations, it brings a delightful user experience to meme enthusiasts.
 
