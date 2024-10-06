@@ -4,7 +4,7 @@ const nextConfig = {
   trailingSlash: true, // Optional but helps in static hosting environments
   images: {
     unoptimized: true, // Disable Next.js image optimization for static exports
-  }
+  },
 };
 
 export default nextConfig;
