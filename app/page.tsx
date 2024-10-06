@@ -7,6 +7,7 @@ import { BiHomeCircle, BiHeartCircle, BiShareAlt } from 'react-icons/bi'; // Hom
 interface Meme {
   url: string;
   title: string;
+  author: string; // Add author to the Meme interface
 }
 
 export default function Home() {
@@ -14,12 +15,16 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [likedMemes, setLikedMemes] = useState<Meme[]>([]);
   const [activeTab, setActiveTab] = useState('home');
+  const [scrollCount, setScrollCount] = useState(0); // Track how many times user scrolls
   const loadMoreRef = useRef<HTMLDivElement | null>(null); // Ref for load more div
+
+  const baseAPI = 'https://meme-api.com/gimme/10';
+  const dankMemeAPI = 'https://meme-api.com/gimme/dankmemer/10';
 
   useEffect(() => {
     const storedLikes = JSON.parse(localStorage.getItem('likedMemes') || '[]');
     setLikedMemes(storedLikes);
-    fetchMemes();
+    fetchMemes(); // Fetch initial memes
   }, []);
 
   // Infinite scroll logic
@@ -27,7 +32,7 @@ export default function Home() {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting && !loading && activeTab === 'home') {
-          fetchMemes();
+          fetchMemes(); // Fetch memes when scrolling
         }
       },
       {
@@ -49,9 +54,19 @@ export default function Home() {
   const fetchMemes = async () => {
     setLoading(true);
     try {
-      const response = await fetch('https://meme-api.com/gimme/10');
+      const apiToUse = scrollCount >= 1 ? dankMemeAPI : baseAPI; // Switch to dankmemer after one scroll
+      const response = await fetch(apiToUse);
       const data = await response.json();
-      setMemes((prevMemes) => [...prevMemes, ...data.memes]);
+      
+      // Extract meme info, including author
+      const newMemes = data.memes.map((meme: any) => ({
+        url: meme.url,
+        title: meme.title,
+        author: meme.author, // Extract the author field
+      }));
+      
+      setMemes((prevMemes) => [...prevMemes, ...newMemes]);
+      setScrollCount((prevCount) => prevCount + 1); // Increase scroll count
     } catch (error) {
       console.error('Error fetching memes:', error);
     } finally {
@@ -105,32 +120,35 @@ export default function Home() {
               alt={meme.title}
               className="w-full h-auto object-contain"
             />
-            <div className="p-4 flex justify-between items-center">
+            <div className="p-4 flex flex-col justify-between">
               <p className="text-lg font-semibold truncate card-text">{meme.title}</p>
+              <p className="text-sm text-gray-400">By {meme.author}</p> {/* Display the author here */}
 
-              <div className="flex space-x-4 items-center">
-                <button
-                  className={`icon ${
-                    likedMemes.some((likedMeme) => likedMeme.url === meme.url)
-                      ? 'icon-like-active'
-                      : 'icon-like'
-                  }`}
-                  onClick={() => handleLike(meme)}
-                >
-                  {likedMemes.some((likedMeme) => likedMeme.url === meme.url) ? (
-                    <AiFillHeart />
-                  ) : (
-                    <AiOutlineHeart />
-                  )}
-                </button>
+              <div className="flex justify-between items-center mt-2">
+                <div className="flex space-x-4 items-center">
+                  <button
+                    className={`icon ${
+                      likedMemes.some((likedMeme) => likedMeme.url === meme.url)
+                        ? 'icon-like-active'
+                        : 'icon-like'
+                    }`}
+                    onClick={() => handleLike(meme)}
+                  >
+                    {likedMemes.some((likedMeme) => likedMeme.url === meme.url) ? (
+                      <AiFillHeart />
+                    ) : (
+                      <AiOutlineHeart />
+                    )}
+                  </button>
 
-                {/* Share button */}
-                <button
-                  className="icon icon-share"
-                  onClick={() => handleShare(meme)}
-                >
-                  <BiShareAlt />
-                </button>
+                  {/* Share button */}
+                  <button
+                    className="icon icon-share"
+                    onClick={() => handleShare(meme)}
+                  >
+                    <BiShareAlt />
+                  </button>
+                </div>
               </div>
             </div>
           </div>
