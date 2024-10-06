@@ -1,7 +1,10 @@
-name: Deploy Next.js App to GitHub Pages
+name: Deploy Next.js App
 
 on:
   push:
+    branches:
+      - main
+  pull_request:
     branches:
       - main
 
@@ -19,17 +22,16 @@ jobs:
         node-version: '20'
 
     - name: Install Dependencies
-      run: |
-        npm install @chakra-ui/react @emotion/react @emotion/styled framer-motion react-icons @chakra-ui/icons axios
-        npm install
+      run: npm install
 
-    - name: Build and Export
-      run: |
-        npm run build
-        npm run export
-    
+    - name: Build Project
+      run: npm run build
+
+    - name: Export Project
+      run: npm run export
+
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./out # This is where Next.js exports the static site
+        publish_dir: ./out  # The directory where the exported files are located
