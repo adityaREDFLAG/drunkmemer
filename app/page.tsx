@@ -14,7 +14,7 @@ export default function Home() {
   const [memes, setMemes] = useState<Meme[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [likedMemes, setLikedMemes] = useState<Meme[]>([]);
-  const [activeTab, setActiveTab] = useState<'home' | 'favorites'>('home'); // Ensure activeTab is a string literal type
+  const [activeTab, setActiveTab] = useState<'home' | 'favorites'>('home');
   const loadMoreRef = useRef<HTMLDivElement | null>(null); // Ref for load more div
 
   useEffect(() => {
@@ -50,7 +50,7 @@ export default function Home() {
   const fetchMemes = async () => {
     setLoading(true);
     try {
-      const response = await fetch('https://meme-api.com/gimme/dankmemer/10'); // Using the new subreddit API
+      const response = await fetch('https://meme-api.com/gimme/10'); // Using the original base URL
       const data = await response.json();
       
       setMemes((prevMemes) => [...prevMemes, ...data.memes]);
@@ -109,7 +109,10 @@ export default function Home() {
             />
             <div className="p-4 flex justify-between items-center">
               <div>
-                <p className="text-lg font-semibold truncate card-text">{meme.title}</p>
+                {/* Title and author */}
+                <p className="text-lg font-semibold truncate card-text">
+                  {meme.title}
+                </p>
                 <p className="text-sm text-gray-400">by {meme.author}</p> {/* Display the author under title */}
               </div>
 
