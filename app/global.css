@@ -146,11 +146,12 @@ button:active {
 .text-gray-400 {
   color: #888888;
 }
-/* CSS for fitting the title within the box */
-.card-text {
-  white-space: nowrap; /* Prevents wrapping */
-  overflow: hidden;    /* Hide overflowed content */
-  text-overflow: ellipsis; /* Add ellipsis when text is too long */
-  max-width: 100%;     /* Ensure it stays within the box */
-}
 
+/* Card Text Truncate for Title Overflow */
+.card-text {
+  white-space: nowrap; /* Prevent the text from wrapping */
+  overflow: hidden;    /* Hide any text that overflows the box */
+  text-overflow: ellipsis; /* Show ellipsis (...) for overflowed text */
+  max-width: 100%;     /* Ensure it takes the full width of the container */
+  display: block;
+}
