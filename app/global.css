@@ -83,14 +83,18 @@ button:hover {
   transition: color 0.2s ease;
 }
 
-/* Updated like button animation */
 .icon-like-active {
-  color: var(--like-color); /* Red color for liked icon */
+  color: var(--like-color); /* Red color when liked */
   animation: like-burst 0.4s ease-in-out; /* Apply like burst animation */
 }
 
+/* Prevent liked button from turning grey on hover */
+.icon-like-active:hover {
+  color: var(--like-color); /* Maintain red color on hover */
+}
+
 .icon-like {
-  color: var(--foreground);
+  color: var(--foreground); /* Default icon color */
   transition: color 0.3s ease;
 }
 
@@ -99,7 +103,7 @@ button:hover {
 }
 
 .icon:hover {
-  color: var(--hover-accent);
+  color: var(--hover-accent); /* Hover effect for non-liked icons */
 }
 
 /* Navigation Bar */
