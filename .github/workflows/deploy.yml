@@ -25,10 +25,8 @@ jobs:
         run: |
           npm install @chakra-ui/react @emotion/react @emotion/styled framer-motion react-icons @chakra-ui/icons axios
 
-      - name: Build and Export
-        run: |
-          npm run build
-          npm run export
+      - name: Build Project
+        run: npm run build
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
