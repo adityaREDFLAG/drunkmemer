@@ -6,20 +6,20 @@ import "./global.css";
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
-  weight: "100 900",
+  weight: ["100", "900"], // Updated to use array format for weight
 });
 
 const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
-  weight: "100 900",
+  weight: ["100", "900"],
 });
 
 /* Metadata for the site */
 export const metadata: Metadata = {
-  title: "Meme Drunk - Infinite Memes",
-  description: "Meme Drunk: Scroll infinitely, like, and save your favorite memes!",
-  keywords: "memes, humor, infinite scroll, meme platform, meme drunk",
+  title: "Drunk Memer - Infinite Memes",
+  description: "Drunk Memer: Scroll infinitely, like, and save your favorite memes!",
+  keywords: ["memes", "humor", "infinite scroll", "meme platform", "meme drunk"],
   openGraph: {
     title: "Meme Drunk - Infinite Memes",
     description: "The ultimate meme scrolling experience. Enjoy endless memes!",
@@ -38,7 +38,7 @@ export default function RootLayout({
       <head>
         {/* Metadata integration */}
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="icon" href="./favicon.ico" />
+        <link rel="icon" href="/favicon.ico" /> {/* Favicon path */}
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground min-h-screen flex flex-col`}
