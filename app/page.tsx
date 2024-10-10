@@ -7,7 +7,7 @@ import { BiHomeCircle, BiHeartCircle, BiShareAlt } from 'react-icons/bi'; // Hom
 interface Meme {
   url: string;
   title: string;
-  author: string; // Add author property to the Meme type
+  author: string;
 }
 
 export default function Home() {
@@ -50,10 +50,20 @@ export default function Home() {
   const fetchMemes = async () => {
     setLoading(true);
     try {
-      const response = await fetch('https://meme-api.com/gimme/10'); // Using the original base URL
+      const response = await fetch('https://www.reddit.com/r/DrunkMermer/.json?limit=10'); // Fetch memes from Reddit
       const data = await response.json();
-      
-      setMemes((prevMemes) => [...prevMemes, ...data.memes]);
+      const posts = data.data.children;
+
+      // Filter for posts with images only
+      const fetchedMemes = posts
+        .filter((post: any) => post.data.post_hint === 'image')
+        .map((post: any) => ({
+          url: post.data.url,
+          title: post.data.title,
+          author: post.data.author,
+        }));
+
+      setMemes((prevMemes) => [...prevMemes, ...fetchedMemes]);
     } catch (error) {
       console.error('Error fetching memes:', error);
     } finally {
@@ -100,49 +110,67 @@ export default function Home() {
 
       {/* Single Meme View */}
       <div className="flex flex-col items-center">
-        {(activeTab === 'home' ? memes : likedMemes).map((meme, index) => (
-          <div key={index} className="w-full sm:w-3/4 md:w-2/4 lg:w-1/3 card">
-            <img
-              src={meme.url}
-              alt={meme.title}
-              className="w-full h-auto object-contain"
-            />
-            <div className="p-4 flex justify-between items-center">
-              <div>
-                {/* Title and author */}
-                <p className="text-lg font-semibold truncate card-text">
-                  {meme.title}
-                </p>
-                <p className="text-sm text-gray-400">by {meme.author}</p> {/* Display the author under title */}
-              </div>
+        {memes.length > 0 ? (
+          (activeTab === 'home' ? memes : likedMemes).map((meme, index) => (
+            <div key={index} className="w-full sm:w-3/4 md:w-2/4 lg:w-1/3 card">
+              <img
+                src={meme.url}
+                alt={meme.title}
+                className="w-full h-auto object-contain"
+              />
+              <div className="p-4 flex justify-between items-center">
+                <div>
+                  {/* Title and author */}
+                  <p className="text-lg font-semibold truncate card-text">
+                    {meme.title}
+                  </p>
+                  <p className="text-sm text-gray-400">by {meme.author}</p> {/* Display the author */}
+                </div>
 
-              <div className="flex space-x-4 items-center">
-                <button
-                  className={`icon ${
-                    likedMemes.some((likedMeme) => likedMeme.url === meme.url)
-                      ? 'icon-like-active'
-                      : 'icon-like'
-                  }`}
-                  onClick={() => handleLike(meme)}
-                >
-                  {likedMemes.some((likedMeme) => likedMeme.url === meme.url) ? (
-                    <AiFillHeart />
-                  ) : (
-                    <AiOutlineHeart />
-                  )}
-                </button>
+                <div className="flex space-x-4 items-center">
+                  <button
+                    className={`icon ${
+                      likedMemes.some((likedMeme) => likedMeme.url === meme.url)
+                        ? 'icon-like-active'
+                        : 'icon-like'
+                    }`}
+                    onClick={() => handleLike(meme)}
+                  >
+                    {likedMemes.some((likedMeme) => likedMeme.url === meme.url) ? (
+                      <AiFillHeart />
+                    ) : (
+                      <AiOutlineHeart />
+                    )}
+                  </button>
 
-                {/* Share button */}
-                <button
-                  className="icon icon-share"
-                  onClick={() => handleShare(meme)}
-                >
-                  <BiShareAlt />
-                </button>
+                  {/* Share button */}
+                  <button
+                    className="icon icon-share"
+                    onClick={() => handleShare(meme)}
+                  >
+                    <BiShareAlt />
+                  </button>
+                </div>
               </div>
             </div>
+          ))
+        ) : (
+          <div className="flex flex-col items-center">
+            <p>No memes uploaded yet!</p>
+            <p>
+              Go to{' '}
+              <a
+                href="https://www.reddit.com/r/DrunkMermer/submit/?type=TEXT"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-500"
+              >
+                Reddit
+              </a>{' '}
+              to upload a meme!
+            </p>
           </div>
-        ))}
+        )}
       </div>
 
       {/* Infinite Scroll Trigger */}
